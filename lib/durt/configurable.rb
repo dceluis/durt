@@ -7,34 +7,17 @@ module Durt
     STORE_FILE_NAME = '.durt.yml'
     STORE_FILE_PATH = File.expand_path("~/#{STORE_FILE_NAME}")
 
-    def self.extended(base)
-      base.config_store.transaction do
-        store = base.config_store
-        top_level_config = store[base.config_key]
-
-        store[base.config_key] = { base_config: nil } if top_level_config.nil?
+    def config
+      config_store.transaction do
+        config_store[config_key]
       end
     end
 
-    def config(key: nil)
+    def config!(obj)
       config_store.transaction do
-        if key.nil?
-          config_store[config_key][:base_config]
-        else
-          config_store[config_key][key]
-        end
-      end
-    end
+        serialized = config_serializer.call(obj)
 
-    def config!(obj, key: nil)
-      config_store.transaction do
-        if key.nil?
-          serialized = config_serializer.call(obj)
-
-          config_store[config_key][:base_config] = serialized
-        else
-          config_store[config_key][key] = obj
-        end
+        config_store[config_key] = serialized
       end
     end
 
@@ -47,7 +30,7 @@ module Durt
     end
 
     def config_key
-      name
+      raise NotImplementedError
     end
 
     def config_store

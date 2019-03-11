@@ -45,6 +45,10 @@ module Durt
       end
     end
 
+    def self.config_key
+      source_name
+    end
+
     private
 
     def fetch_issues_query
