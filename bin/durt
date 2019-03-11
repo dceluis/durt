@@ -29,4 +29,6 @@ elsif command == 'stats'
   Durt::Issue.active_issue.puts_stats
 elsif command == 'stats-all'
   Durt::Issue.all.each(&:puts_stats)
+elsif command == 'db'
+  system("sqlitebrowser #{Durt::DB_PATH}")
 end
