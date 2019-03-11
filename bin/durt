@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+require 'durt'
+
+# Read lines from both file or STDIN
+# lines = (ARGV[0] ? IO.readlines(ARGV[0]) : ARGF.readlines).map(&:chomp)
+
+# puts Durt::VERSION
+
+command = ARGV[0]
+options = ARGV[1..-1]
+
+prompt = Durt::Prompt.new
+
+if command == 'statuses'
+  chosen_statuses = prompt.select_statuses
+  Durt::Status.all.update_all(active: false)
+  Durt::Status.where(id: chosen_statuses).update_all(active: true)
+elsif command == 'memo'
+  issue = prompt.select_issue
+  Durt::InternalTracker.enter(issue)
+  Durt::UpworkTracker.enter(issue)
+elsif command == 'start'
+  Durt::InternalTracker.start
+  Durt::UpworkTracker.start
+elsif command == 'stop'
+  Durt::InternalTracker.stop
+  Durt::UpworkTracker.stop
+elsif command == 'stats'
+  Durt::Issue.active_issue.puts_stats
+elsif command == 'stats-all'
+  Durt::Issue.all.each(&:puts_stats)
+end

@@ -1,0 +1,3 @@
+--- !ruby/object:Uebs::Issue
+key: SUPPORT-96
+summary: Company ID 878 requests assistance removing "Passed" checkmark on this test.730610.
