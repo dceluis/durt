@@ -13,20 +13,8 @@ module Durt
       end
     end
 
-    def config!(obj)
-      config_store.transaction do
-        serialized = config_serializer.call(obj)
-
-        config_store[config_key] = serialized
-      end
-    end
-
     def config?
       !config.nil?
-    end
-
-    def config_serializer
-      ->(obj) { obj }
     end
 
     def config_key

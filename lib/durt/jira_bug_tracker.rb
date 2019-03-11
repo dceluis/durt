@@ -11,18 +11,6 @@ module Durt
       @client = JIRA::Client.new(config)
     end
 
-    def self.config_serializer
-      lambda do |obj|
-        {
-          username: obj[:username],
-          password: obj[:password],
-          site: "http://#{obj[:subdomain]}.atlassian.net:443/",
-          context_path: '',
-          auth_type: :basic
-        }
-      end
-    end
-
     def fetch_issues
       issues = @client.Issue.jql(fetch_issues_query)
 
