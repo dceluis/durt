@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'durt/application_record'
+require_relative 'application_record'
 
 module Durt
   class Status < ApplicationRecord

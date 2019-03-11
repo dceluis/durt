@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'durt/application_record'
+require_relative 'application_record'
 require 'chronic_duration'
 
 module Durt

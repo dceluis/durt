@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require 'durt'
+require_relative '../lib/durt'
 
 # Read lines from both file or STDIN
 # lines = (ARGV[0] ? IO.readlines(ARGV[0]) : ARGF.readlines).map(&:chomp)

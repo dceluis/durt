@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 module Durt
-  require 'durt/version'
-  require 'durt/configurable'
-  require 'durt/issue'
-  require 'durt/session'
-  require 'durt/internal_tracker'
-  require 'durt/upwork_tracker'
-  require 'durt/bug_tracker'
-  require 'durt/jira_bug_tracker'
-  require 'durt/prompt'
-  require 'durt/status'
+  require_relative 'durt/version'
+  require_relative 'durt/configurable'
+  require_relative 'durt/issue'
+  require_relative 'durt/session'
+  require_relative 'durt/internal_tracker'
+  require_relative 'durt/upwork_tracker'
+  require_relative 'durt/bug_tracker'
+  require_relative 'durt/jira_bug_tracker'
+  require_relative 'durt/prompt'
+  require_relative 'durt/status'
 end

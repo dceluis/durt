@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'durt/time_tracker'
+require_relative 'time_tracker'
 
 module Durt
   class UpworkTracker < TimeTracker
