@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
 require 'active_record'
+require_relative 'db_config'
 
-db_config_file_path = File.expand_path('../../db/config.yml', __dir__)
-db_config = YAML.load(File.read(db_config_file_path))['production']
-db_config[:database] = File.expand_path('../../' + db_config['database'], __dir__)
-
-ActiveRecord::Base.establish_connection(db_config)
+ActiveRecord::Base.establish_connection(Durt::DB_CONFIG)
 
 module Durt
   class ApplicationRecord < ::ActiveRecord::Base
