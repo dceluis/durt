@@ -60,8 +60,6 @@ If you wish to execute without installing, you can by launching this command fro
 ruby -Ilib bin/durt memo
 ```
 
-## Extra
-
 Other commands include:
 
 ```bash
