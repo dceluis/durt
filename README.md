@@ -43,7 +43,13 @@ Jira:
 
 If you followed the above instruction and the gem is installed on the system, you should have the binary file ready to run from your command line.
 
-Start by picking an issue to work on:
+Start by choosing the issue statuses that you'll be able to choose from:
+
+```bash
+durt statuses
+```
+
+Next, pick an issue to work on:
 
 ```bash
 durt memo
