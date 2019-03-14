@@ -27,5 +27,8 @@ module Durt
     def statuses
       Durt::Status.where(source: source_name)
     end
+
+    class NotConfiguredError < StandardError
+    end
   end
 end
