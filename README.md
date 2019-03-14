@@ -2,7 +2,7 @@
 
 Small Ruby program generated using https://github.com/snada/generator-ruby-cmd
 
-## Setup and install
+## Install
 
 This is a Ruby program and uses Bundler to ensure dependencies consistency. On your machine navigate to the project root and run:
 
@@ -20,19 +20,56 @@ gem build durt.gemspec
 gem install durt
 ```
 
+## Setup
+
+Make sure Upwork client (or pick time tracker) is running and in the correct
+project.
+
+Then, create `.durt.yml` at your root folder. Example for Jira project:
+
+```
+# ~/.durt.yml
+
+---
+Jira:
+  :username: username@example.com
+  :password: yourpassword
+  :site: http://yourproject.atlassian.net:443/
+  :context_path: ''
+  :auth_type: :basic
+```
+
 ## Usage
 
 If you followed the above instruction and the gem is installed on the system, you should have the binary file ready to run from your command line.
 
+Start by picking an issue to work on:
+
 ```bash
-durt input.txt
-durt < input.txt
+durt memo
 ```
+
+You will be asked to estimate the time it will take you to work on this issue.
+Valid inputs include: `29 minutes`, `3 hours`, `123249 sec` `3 min`, etc.
+As long as it includes a number and something that resembles a time measure it
+will not complain.
 
 If you wish to execute without installing, you can by launching this command from the project root directory:
 
 ```bash
-ruby -Ilib bin/durt < input.txt
+ruby -Ilib bin/durt memo
+```
+
+## Extra
+
+Other commands include:
+
+```bash
+durt start
+durt stop
+durt stats
+durt stats-all
+durt edit-estimate
 ```
 
 ## Testing
