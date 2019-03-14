@@ -11,10 +11,11 @@ module Durt
     def select_issue
       issues = bug_tracker.fetch_issues
 
-      issue =
-        @prompt.select('What will you work on?', build_issue_choices(issues))
-      return issue if issue.estimate?
+      @prompt.select('What will you work on?', build_issue_choices(issues))
+    end
 
+    def edit_estimate(issue)
+      puts "Selected: #{issue}\n"
       estimate_input =
         @prompt.ask('How long do you think this task will take you?')
 

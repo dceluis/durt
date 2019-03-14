@@ -17,6 +17,9 @@ if command == 'statuses'
   Durt::Status.where(id: chosen_statuses).update_all(active: true)
 elsif command == 'memo'
   issue = prompt.select_issue
+
+  prompt.edit_estimate(issue) unless issue.estimate?
+
   Durt::InternalTracker.enter(issue)
   Durt::UpworkTracker.enter(issue)
 elsif command == 'start'
@@ -31,4 +34,6 @@ elsif command == 'stats-all'
   Durt::Issue.all.each(&:puts_stats)
 elsif command == 'db'
   system("sqlitebrowser #{Durt::DB_PATH}")
+elsif command == 'edit-estimate'
+  prompt.edit_estimate(Durt::Issue.active_issue)
 end
