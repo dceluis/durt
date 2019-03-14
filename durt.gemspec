@@ -1,6 +1,9 @@
 # encoding: utf-8
 require File.expand_path('lib/durt/version', __dir__)
 
+
+files = `git ls-files -z`.split("\x0")
+
 Gem::Specification.new do |s|
   s.name = 'durt'
   s.version = Durt::VERSION
@@ -10,8 +13,8 @@ Gem::Specification.new do |s|
   s.description = %q{EBS tool for me}
   s.licenses = ['MIT']
 
-  s.files = %x(git ls-files -z).split("\x0").reject { |f| f.match(%r{^(coverage|test|spec|features)/}) }
-  s.test_files = %x(git ls-files -z).split("\x0").select { |f| f.match(%r{^(test|spec|features)/}) }
+  s.files = files.reject { |f| f.match(%r{^(coverage|test|spec|features)/}) }
+  s.test_files = files.select { |f| f.match(%r{^(test|spec|features)/}) }
   s.executables = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.require_paths = ['lib']
 
