@@ -51,7 +51,7 @@ module Durt
         Estimated: #{ChronicDuration.output(estimate || 0, format: :long)}.
         Tracked: #{ChronicDuration.output(total_tracked_time, format: :long)}.
         Estimation ratio: #{estimation_ratio} (#{estimation_result_label})
-        ----------------------------------
+        -----------------------------------
 
       MSG
     end
