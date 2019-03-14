@@ -7,7 +7,8 @@ module Durt
     extend Configurable
 
     def initialize
-      config = self.class.config
+      raise NotConfiguredError unless (config = self.class.config)
+
       @client = JIRA::Client.new(config)
     end
 
