@@ -36,4 +36,6 @@ elsif command == 'db'
   system("sqlitebrowser #{Durt::DB_PATH}")
 elsif command == 'edit-estimate'
   prompt.edit_estimate(Durt::Issue.active_issue)
+elsif command == '-v'
+  puts Durt::VERSION
 end
