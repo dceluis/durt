@@ -19,14 +19,11 @@ elsif command == 'memo'
   issue = prompt.select_issue
 
   prompt.edit_estimate(issue) unless issue.estimate?
-
   Durt::Project.current_project.plugins.each { |plugin| plugin.enter(issue) }
 elsif command == 'start'
-  Durt::InternalTracker.start
-  Durt::UpworkTracker.start
+  Durt::Project.current_project.plugins.each(&:start)
 elsif command == 'stop'
-  Durt::InternalTracker.stop
-  Durt::UpworkTracker.stop
+  Durt::Project.current_project.plugins.each(&:stop)
 elsif command == 'stats'
   Durt::Issue.active_issue.puts_stats
 elsif command == 'stats-all'

@@ -18,8 +18,19 @@ module Durt
       end
     end
 
-    def enter(issue)
+    def enter(_issue)
       # system("#{command} issue.to_json or sth")
+      nil
+    end
+
+    def start
+      # system("#{command} issue.to_json or sth")
+      nil
+    end
+
+    def stop
+      # system("#{command} issue.to_json or sth")
+      nil
     end
 
     private
@@ -44,6 +55,14 @@ module Durt
       time_tracker.enter(issue)
     end
 
+    def start
+      time_tracker.start
+    end
+
+    def stop
+      time_tracker.stop
+    end
+
     def time_tracker
       Durt::InternalTracker
     end
@@ -66,6 +85,14 @@ module Durt
   class UpworkPlugin < Plugin
     def enter(issue)
       time_tracker.enter(issue)
+    end
+
+    def start
+      time_tracker.start
+    end
+
+    def stop
+      time_tracker.stop
     end
 
     def time_tracker
