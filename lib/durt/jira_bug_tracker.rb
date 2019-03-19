@@ -6,6 +6,8 @@ module Durt
   class JiraBugTracker < BugTracker
     extend Configurable
 
+    attr_accessor :client
+
     def initialize
       raise NotConfiguredError unless (config = self.class.config)
 
