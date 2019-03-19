@@ -42,12 +42,6 @@ module Durt
       estimation_ratio < 1
     end
 
-    def estimate(estimation)
-      update(estimate: estimation)
-
-      tracker.estimate(key, estimation)
-    end
-
     # Presenters
 
     def stats
@@ -83,14 +77,6 @@ module Durt
     end
 
     private
-
-    def tracker
-      project[:tracker]
-    end
-
-    def project
-      { tracker: JiraBugTracker.new }
-    end
 
     def sanitize_summary
       return unless summary
