@@ -36,6 +36,17 @@ module Durt
       end
     end
 
+    def estimate(key, estimation)
+      comment(key, "Seconds estimated until completion: #{estimation}")
+    end
+
+    def comment(key, content)
+      issue = client.Issue.find(key)
+
+      comment = issue.comments.build
+      comment.save(body: content)
+    end
+
     def self.config_key
       source_name
     end
