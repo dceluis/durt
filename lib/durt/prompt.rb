@@ -19,7 +19,7 @@ module Durt
       estimate_input =
         @prompt.ask('How long do you think this task will take you?')
 
-      issue.update(estimate: estimate_input_to_seconds(estimate_input))
+      issue.estimate(estimate_input_to_seconds(estimate_input))
       issue
     end
 
