@@ -37,7 +37,7 @@ module Durt
     end
 
     def estimate(key, estimation)
-      comment(key, "Seconds estimated until completion: #{estimation}")
+      comment(key, "Total seconds estimated for this task: #{estimation}")
     end
 
     def comment(key, content)
