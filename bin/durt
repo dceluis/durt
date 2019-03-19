@@ -10,6 +10,8 @@ command = ARGV[0]
 options = ARGV[1..-1]
 
 prompt = Durt::Prompt.new
+current_project = Durt::Project.current_project
+plugins = current_project.plugins
 
 if command == 'statuses'
   chosen_statuses = prompt.select_statuses
@@ -18,12 +20,12 @@ if command == 'statuses'
 elsif command == 'memo'
   issue = prompt.select_issue
 
-  prompt.edit_estimate(issue) unless issue.estimate?
-  Durt::Project.current_project.plugins.each { |plugin| plugin.enter(issue) }
+  plugins.each { |plugin| plugin.before_enter(issue) }
+  plugins.each { |plugin| plugin.enter(issue) }
 elsif command == 'start'
-  Durt::Project.current_project.plugins.each(&:start)
+  plugins.each(&:start)
 elsif command == 'stop'
-  Durt::Project.current_project.plugins.each(&:stop)
+  plugins.each(&:stop)
 elsif command == 'stats'
   Durt::Issue.active_issue.puts_stats
 elsif command == 'stats-all'
@@ -31,7 +33,7 @@ elsif command == 'stats-all'
 elsif command == 'db'
   system("sqlitebrowser #{Durt::DB_PATH}")
 elsif command == 'edit-estimate'
-  prompt.edit_estimate(Durt::Issue.active_issue)
+  Durt::EbsPlugin.edit_estimate(Durt::Issue.active_issue)
 elsif command == '-v'
   puts Durt::VERSION
 end

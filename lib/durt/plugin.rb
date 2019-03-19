@@ -7,7 +7,8 @@ module Durt
     PLUGINS = [
       { name: 'Upwork' },
       { name: 'Internal' },
-      { name: 'Jira' }
+      { name: 'Jira' },
+      { name: 'Ebs' }
     ].freeze
 
     def self.all
@@ -16,6 +17,11 @@ module Durt
 
         klass.constantize.new
       end
+    end
+
+    def before_enter(_issue)
+      # system("#{command} issue.to_json or sth")
+      nil
     end
 
     def enter(_issue)
@@ -101,6 +107,16 @@ module Durt
 
     def bug_tracker
       nil
+    end
+  end
+
+  class EbsPlugin < Plugin
+    def before_enter(issue)
+      edit_estimate(issue)
+    end
+
+    def edit_estimate(issue)
+      Durt::Prompt.new.edit_estimate(issue)
     end
   end
 end
