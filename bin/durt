@@ -9,14 +9,11 @@ require_relative '../lib/durt'
 command = ARGV[0]
 options = ARGV[1..-1]
 
-prompt = Durt::Prompt.new
 current_project = Durt::Project.current_project
 plugins = current_project.plugins
 
-if command == 'statuses'
-  chosen_statuses = prompt.select_statuses
-  Durt::Status.all.update_all(active: false)
-  Durt::Status.where(id: chosen_statuses).update_all(active: true)
+if command == 'filter'
+  plugins.each(&:filter)
 elsif command == 'memo'
   plugins.each(&:before_pick)
   issue = plugins.map(&:pick).compact.first
