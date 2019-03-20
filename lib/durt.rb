@@ -9,6 +9,7 @@ module Durt
 
   require_relative 'durt/internal_plugin'
   require_relative 'durt/upwork_plugin'
+  require_relative 'durt/github_plugin'
   require_relative 'durt/jira_plugin'
   require_relative 'durt/ebs_plugin'
 
@@ -20,6 +21,7 @@ module Durt
   require_relative 'durt/internal_tracker'
   require_relative 'durt/upwork_tracker'
   require_relative 'durt/null_bug_tracker'
+  require_relative 'durt/github_bug_tracker'
   require_relative 'durt/jira_bug_tracker'
   require_relative 'durt/internal_bug_tracker'
 end
