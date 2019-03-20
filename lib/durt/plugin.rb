@@ -67,11 +67,11 @@ module Durt
     end
 
     def time_tracker
-      TimeTracker.new
+      Durt::NullTimeTracker
     end
 
     def bug_tracker
-      BugTracker.new
+      Durt::NullBugTracker.new
     end
   end
 end
