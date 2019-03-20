@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'tty-prompt'
+
 module Durt
   class Plugin
     # TODO: Remove this hardcoded plugin configs
@@ -27,7 +29,11 @@ module Durt
     end
 
     def pick
-      nil
+      return if issues.empty?
+
+      prompt.select('What will you work on?', issues.to_choice_h).tap do |issue|
+        puts "Selected: #{issue}\n"
+      end
     end
 
     def before_enter(_issue)
@@ -50,6 +56,12 @@ module Durt
       nil
     end
 
+    def issues
+      return [] unless bug_tracker
+
+      bug_tracker.issues
+    end
+
     private
 
     def command
@@ -57,21 +69,17 @@ module Durt
     end
 
     def time_tracker
-      raise NotImplementedError
+      TimeTracker.new
     end
 
     def bug_tracker
-      raise NotImplementedError
+      BugTracker.new
     end
 
     attr_reader :config
   end
 
   class InternalPlugin < Plugin
-    def pick
-      Durt::Prompt.new.pick_issue
-    end
-
     def enter(issue)
       time_tracker.enter(issue)
     end
@@ -89,7 +97,13 @@ module Durt
     end
 
     def bug_tracker
-      nil
+      Durt::InternalBugTracker.new
+    end
+
+    private
+
+    def prompt
+      @prompt ||= TTY::Prompt.new
     end
   end
 
@@ -124,10 +138,6 @@ module Durt
 
     def statuses
       bug_tracker.statuses
-    end
-
-    def issues
-      bug_tracker.issues
     end
 
     private

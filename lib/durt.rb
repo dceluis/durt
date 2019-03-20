@@ -13,6 +13,6 @@ module Durt
   require_relative 'durt/upwork_tracker'
   require_relative 'durt/bug_tracker'
   require_relative 'durt/jira_bug_tracker'
-  require_relative 'durt/prompt'
+  require_relative 'durt/internal_bug_tracker'
   require_relative 'durt/status'
 end
