@@ -4,13 +4,10 @@ require 'jira-ruby'
 
 module Durt
   class JiraBugTracker < BugTracker
-    extend Configurable
 
     attr_accessor :client
 
-    def initialize
-      raise NotConfiguredError unless (config = self.class.config)
-
+    def initialize(config)
       @client = JIRA::Client.new(config)
     end
 
@@ -45,10 +42,6 @@ module Durt
 
       comment = issue.comments.build
       comment.save(body: content)
-    end
-
-    def self.config_key
-      source_name
     end
 
     private
