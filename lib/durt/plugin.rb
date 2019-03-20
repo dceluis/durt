@@ -4,7 +4,7 @@ require 'tty-prompt'
 
 module Durt
   class Plugin
-    # TODO: Remove this hardcoded plugin configs
+    attr_reader :config
 
     PLUGINS = [ 'Upwork', 'Jira', 'Internal', 'Ebs' ].freeze
 
@@ -12,12 +12,20 @@ module Durt
       PLUGINS.map do |plugin_name|
         klass = "Durt::#{plugin_name}Plugin"
 
-        klass.constantize.new
+        klass.constantize
       end
     end
 
-    def name
-      self.class.name.split('::').last.sub('Plugin', '')
+    def initialize(config = nil)
+      @config = config
+    end
+
+    def self.find_by_plugin_name(plugin_name)
+      all.find { |plugin| plugin.plugin_name == plugin_name.to_s }
+    end
+
+    def self.plugin_name
+      name.split('::').last.sub('Plugin', '')
     end
 
     def filter

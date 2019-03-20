@@ -4,13 +4,13 @@ require_relative 'plugin'
 
 module Durt
   class JiraPlugin < Plugin
-    include Configurable
-
     def before_choose
       bug_tracker.fetch_issues
     end
 
     def filter
+      bug_tracker.fetch_statuses
+
       message = 'Select the statuses that you want to include:'
       chosen_statuses = prompt.multi_select(message, statuses.to_choice_h)
 
@@ -22,10 +22,6 @@ module Durt
       raise NotConfiguredError unless config
 
       Durt::JiraBugTracker.new(config)
-    end
-
-    def config_key
-      'Jira'
     end
 
     def statuses

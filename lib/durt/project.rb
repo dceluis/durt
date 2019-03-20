@@ -1,13 +1,20 @@
 # frozen_string_literal: true
 
+require_relative 'application_record'
+
 module Durt
-  class Project
+  class Project < ApplicationRecord
+    include Configurable
+
     def self.current_project
-      new
+      @current_project ||= find_by!(active: true)
     end
 
     def plugins
-      @plugins ||= Durt::Plugin.all
+      @plugins ||=
+        config['plugins'].map do |plugin_name, plugin_config|
+          Durt::Plugin.find_by_plugin_name(plugin_name).new(plugin_config)
+        end
     end
 
     def bug_tracker_plugin
@@ -20,6 +27,10 @@ module Durt
 
     def issues
       bug_tracker_plugin.issues
+    end
+
+    def config_key
+      name
     end
 
     def active_issue
