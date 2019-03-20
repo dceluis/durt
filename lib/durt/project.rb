@@ -40,6 +40,7 @@ module Durt
     def self.create_project
       project_name = prompt.ask('What will you name our project?')
 
+      update_all(active: false)
       create(name: project_name, active: true).tap do |project|
         create_project_config(project)
       end
