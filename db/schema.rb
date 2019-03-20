@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2019_03_20_034001) do
 
   create_table "projects", force: :cascade do |t|
     t.string "name", null: false
+    t.boolean "active", default: false, null: false
   end
 
   create_table "sessions", force: :cascade do |t|
