@@ -15,23 +15,29 @@ plugins = current_project.plugins
 if command == 'filter'
   plugins.each(&:filter)
 elsif command == 'memo'
-  plugins.each(&:before_choose)
-  issue = plugins.map(&:pick).compact.first
+  bt_plugin = current_project.bug_tracker_plugin
 
-  plugins.each { |plugin| plugin.before_enter(issue) }
-  plugins.each { |plugin| plugin.enter(issue) }
+  bt_plugin.before_choose
+  issue = bt_plugin.choose
+
+  tt_plugins = current_project.time_tracker_plugins
+
+  tt_plugins.each { |plugin| plugin.before_enter(issue) }
+  tt_plugins.each { |plugin| plugin.enter(issue) }
 elsif command == 'start'
   plugins.each(&:start)
 elsif command == 'stop'
   plugins.each(&:stop)
 elsif command == 'stats'
-  Durt::Issue.active_issue.puts_stats
+  current_project.active_issue.puts_stats
 elsif command == 'stats-all'
-  Durt::Issue.all.each(&:puts_stats)
+  current_project.issues.each(&:puts_stats)
 elsif command == 'db'
   system("sqlitebrowser #{Durt::DB_PATH}")
 elsif command == 'edit-estimate'
-  Durt::EbsPlugin.edit_estimate(Durt::Issue.active_issue)
+  active_issue = current_project.active_issue
+
+  Durt::EbsPlugin.edit_estimate(active_issue)
 elsif command == '-v'
   puts Durt::VERSION
 end
