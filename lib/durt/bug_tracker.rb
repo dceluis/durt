@@ -12,12 +12,8 @@ module Durt
       raise NotImplementedError
     end
 
-    def self.source_name
-      name.split('::').last.sub('BugTracker', '')
-    end
-
     def source_name
-      self.class.source_name
+      self.class.name.split('::').last.sub('BugTracker', '')
     end
 
     def issues

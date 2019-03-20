@@ -23,28 +23,12 @@ module Durt
       issue
     end
 
-    def select_statuses
-      statuses = Durt::JiraPlugin.new.bug_tracker.fetch_statuses
-
-      @prompt
-        .multi_select('Select the statuses that you want to include:',
-                      build_status_choices(statuses))
-    end
-
     def build_issue_choices
       issues = Durt::Issue.all
       choices = {}
 
       issues.map do |issue|
         choices[issue.to_s] = issue
-      end
-      choices
-    end
-
-    def build_status_choices(statuses)
-      choices = {}
-      statuses.map do |status|
-        choices[status.name] = status.id
       end
       choices
     end
