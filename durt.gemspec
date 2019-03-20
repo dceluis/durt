@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'activerecord', '~> 5.2'
   s.add_runtime_dependency 'chronic_duration', '~> 0.10'
   s.add_runtime_dependency 'jira-ruby', '~> 1.6'
+  s.add_runtime_dependency 'octokit', '~> 4.13'
   s.add_runtime_dependency 'sqlite3', '~> 1.3.6'
   s.add_runtime_dependency 'tty-prompt', '~> 0.18'
 

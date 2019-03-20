@@ -6,7 +6,7 @@ module Durt
   class Plugin
     attr_reader :config
 
-    PLUGINS = [ 'Upwork', 'Jira', 'Internal', 'Ebs' ].freeze
+    PLUGINS = %w[Upwork Jira Github Internal Ebs].freeze
 
     def self.all
       PLUGINS.map do |plugin_name|
@@ -88,6 +88,12 @@ module Durt
 
     def bug_tracker
       Durt::NullBugTracker.new
+    end
+
+    private
+
+    def prompt
+      @prompt ||= TTY::Prompt.new
     end
   end
 end

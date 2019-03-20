@@ -38,12 +38,6 @@ module Durt
       bug_tracker.statuses
     end
 
-    private
-
-    def prompt
-      @prompt ||= TTY::Prompt.new
-    end
-
     class NotConfiguredError < StandardError
     end
   end
