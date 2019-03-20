@@ -19,6 +19,14 @@ module Durt
       end
     end
 
+    def before_pick
+      nil
+    end
+
+    def pick
+      nil
+    end
+
     def before_enter(_issue)
       # system("#{command} issue.to_json or sth")
       nil
@@ -57,6 +65,10 @@ module Durt
   end
 
   class InternalPlugin < Plugin
+    def pick
+      Durt::Prompt.new.pick_issue
+    end
+
     def enter(issue)
       time_tracker.enter(issue)
     end
@@ -79,12 +91,16 @@ module Durt
   end
 
   class JiraPlugin < Plugin
+    def before_pick
+      bug_tracker.fetch_issues
+    end
+
     def time_tracker
       nil
     end
 
     def bug_tracker
-      Durt::JiraBugTracker
+      Durt::JiraBugTracker.new
     end
   end
 

@@ -18,7 +18,8 @@ if command == 'statuses'
   Durt::Status.all.update_all(active: false)
   Durt::Status.where(id: chosen_statuses).update_all(active: true)
 elsif command == 'memo'
-  issue = prompt.select_issue
+  plugins.each(&:before_pick)
+  issue = plugins.map(&:pick).compact.first
 
   plugins.each { |plugin| plugin.before_enter(issue) }
   plugins.each { |plugin| plugin.enter(issue) }
