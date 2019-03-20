@@ -4,6 +4,10 @@ require 'jira-ruby'
 
 module Durt
   class BugTracker
+    def active?
+      true
+    end
+
     def fetch_issues
       raise NotImplementedError
     end
