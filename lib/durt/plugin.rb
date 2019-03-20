@@ -57,8 +57,6 @@ module Durt
     end
 
     def issues
-      return [] unless bug_tracker
-
       bug_tracker.issues
     end
 
