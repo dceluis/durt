@@ -6,7 +6,12 @@ module Durt
   require_relative 'durt/db_config'
   require_relative 'durt/project'
   require_relative 'durt/service'
+
   require_relative 'durt/plugin'
+  require_relative 'durt/internal_plugin'
+  require_relative 'durt/jira_plugin'
+  require_relative 'durt/ebs_plugin'
+
   require_relative 'durt/issue'
   require_relative 'durt/session'
   require_relative 'durt/internal_tracker'

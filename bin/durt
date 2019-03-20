@@ -15,7 +15,7 @@ plugins = current_project.plugins
 if command == 'filter'
   plugins.each(&:filter)
 elsif command == 'memo'
-  plugins.each(&:before_pick)
+  plugins.each(&:before_choose)
   issue = plugins.map(&:pick).compact.first
 
   plugins.each { |plugin| plugin.before_enter(issue) }
