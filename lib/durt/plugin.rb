@@ -4,19 +4,18 @@ module Durt
   class Plugin
     # TODO: Remove this hardcoded plugin configs
 
-    PLUGINS = [
-      { name: 'Upwork' },
-      { name: 'Internal' },
-      { name: 'Jira' },
-      { name: 'Ebs' }
-    ].freeze
+    PLUGINS = [ 'Upwork', 'Internal', 'Jira', 'Ebs' ].freeze
 
     def self.all
-      PLUGINS.map do |plugin_conf|
-        klass = "Durt::#{plugin_conf[:name]}Plugin"
+      PLUGINS.map do |plugin_name|
+        klass = "Durt::#{plugin_name}Plugin"
 
         klass.constantize.new
       end
+    end
+
+    def name
+      self.class.name.split('::').last.sub('Plugin', '')
     end
 
     def filter
@@ -169,7 +168,61 @@ module Durt
     end
 
     def edit_estimate(issue)
-      Durt::Prompt.new.edit_estimate(issue)
+      estimate_input =
+        prompt.ask('How long do you think this task will take you?')
+
+      input_in_seconds = estimate_input_to_seconds(estimate_input)
+
+      EstimateIssue.call(issue: issue, estimation: input_in_seconds)
+      issue
+    end
+
+    private
+
+    def estimate_input_to_seconds(input)
+      digit = input.gsub(/[^\d\.]/, '').to_f
+      measure_char = input.gsub(/[\d\.]/, '').strip.chr
+
+      time_in_seconds = if measure_char == 's'
+                          digit
+                        elsif measure_char == 'm'
+                          digit * 60
+                        elsif measure_char == 'h'
+                          digit * 3600
+                        else
+                          raise WhatKindOfTimeIsThatError
+                        end
+
+      time_in_seconds.ceil(2)
+    end
+
+    def prompt
+      @prompt ||= TTY::Prompt.new
+    end
+
+    class EstimateIssue < ::Durt::Service
+      def initialize(issue:, estimation:)
+        @issue = issue
+        @estimation = estimation
+      end
+
+      def call
+        @issue.update(estimate: @estimation)
+
+        plugins.each do |plugin|
+          plugin.bug_tracker.estimate(@issue.key, @estimation)
+        end
+      end
+
+      private
+
+      def plugins
+        valid_plugins = ['Jira']
+
+        Durt::Project.current_project.plugins.find_all do |p|
+          valid_plugins.include? p.name
+        end
+      end
     end
   end
 end
