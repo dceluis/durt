@@ -91,6 +91,8 @@ module Durt
   end
 
   class JiraPlugin < Plugin
+    include Configurable
+
     def before_pick
       bug_tracker.fetch_issues
     end
@@ -100,7 +102,16 @@ module Durt
     end
 
     def bug_tracker
-      Durt::JiraBugTracker.new
+      raise NotConfiguredError unless config
+
+      Durt::JiraBugTracker.new(config)
+    end
+
+    def config_key
+      'Jira'
+    end
+
+    class NotConfiguredError < StandardError
     end
   end
 

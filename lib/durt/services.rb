@@ -32,11 +32,7 @@ module Durt
       private
 
       def tracker
-        project[:tracker]
-      end
-
-      def project
-        { tracker: JiraBugTracker.new }
+        Durt::JiraPlugin.new.bug_tracker
       end
     end
   end
