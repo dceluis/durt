@@ -18,10 +18,6 @@ module Durt
       statuses.where(id: chosen_statuses).update_all(active: true)
     end
 
-    def time_tracker
-      nil
-    end
-
     def bug_tracker
       raise NotConfiguredError unless config
 
