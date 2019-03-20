@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'bug_tracker'
 require 'jira-ruby'
 
 module Durt
