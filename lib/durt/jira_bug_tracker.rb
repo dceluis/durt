@@ -4,7 +4,6 @@ require 'jira-ruby'
 
 module Durt
   class JiraBugTracker < BugTracker
-
     attr_accessor :client
 
     def initialize(config)
