@@ -4,10 +4,6 @@ require_relative 'plugin'
 
 module Durt
   class InternalPlugin < Plugin
-    def enter(issue)
-      time_tracker.enter(issue)
-    end
-
     def start
       time_tracker.start
     end

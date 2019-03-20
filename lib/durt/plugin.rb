@@ -6,7 +6,7 @@ module Durt
   class Plugin
     # TODO: Remove this hardcoded plugin configs
 
-    PLUGINS = [ 'Upwork', 'Internal', 'Jira', 'Ebs' ].freeze
+    PLUGINS = [ 'Upwork', 'Jira', 'Internal', 'Ebs' ].freeze
 
     def self.all
       PLUGINS.map do |plugin_name|
@@ -28,12 +28,18 @@ module Durt
       nil
     end
 
-    def pick
+    def choose
       return if issues.empty?
 
       prompt.select('What will you work on?', issues.to_choice_h).tap do |issue|
         puts "Selected: #{issue}\n"
+        commit(issue)
       end
+    end
+
+    def commit(issue)
+      issues.update_all(active: false)
+      issue.update(active: true)
     end
 
     def before_enter(_issue)
@@ -59,8 +65,6 @@ module Durt
     def issues
       bug_tracker.issues
     end
-
-    private
 
     def command
       # "durt-#{config[:name]}" || config[:command]

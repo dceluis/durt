@@ -5,8 +5,8 @@ require_relative 'time_tracker'
 module Durt
   class InternalTracker < TimeTracker
     def self.enter(issue)
-      Durt::Issue.all.update_all(active: false)
-      issue.update(active: true)
+      # Already entered into time tracking when committing to internal bug
+      # tracker
     end
 
     def self.start
@@ -31,7 +31,7 @@ module Durt
     end
 
     def self.active_issue
-      Durt::Issue.active_issue
+      Durt::Project.current_project.active_issue
     end
   end
 end
