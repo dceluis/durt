@@ -19,9 +19,5 @@ module Durt
     def time_tracker
       Durt::UpworkTracker
     end
-
-    def bug_tracker
-      nil
-    end
   end
 end
