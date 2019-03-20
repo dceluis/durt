@@ -8,10 +8,8 @@ module Durt
       @prompt = TTY::Prompt.new
     end
 
-    def select_issue
-      issues = bug_tracker.fetch_issues
-
-      @prompt.select('What will you work on?', build_issue_choices(issues))
+    def pick_issue
+      @prompt.select('What will you work on?', build_issue_choices)
     end
 
     def edit_estimate(issue)
@@ -33,8 +31,10 @@ module Durt
                       build_status_choices(statuses))
     end
 
-    def build_issue_choices(issues)
+    def build_issue_choices
+      issues = Durt::Issue.all
       choices = {}
+
       issues.map do |issue|
         choices[issue.to_s] = issue
       end
