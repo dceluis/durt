@@ -24,7 +24,7 @@ module Durt
     end
 
     def select_statuses
-      statuses = bug_tracker.fetch_statuses
+      statuses = Durt::JiraPlugin.new.bug_tracker.fetch_statuses
 
       @prompt
         .multi_select('Select the statuses that you want to include:',
@@ -64,10 +64,6 @@ module Durt
                         end
 
       time_in_seconds.ceil(2)
-    end
-
-    def bug_tracker
-      @bug_tracker ||= Durt::JiraBugTracker.new
     end
   end
 end
