@@ -39,7 +39,7 @@ module Durt
 
     def commit(issue)
       issues.update_all(active: false)
-      issue.update(active: true)
+      issue.reload.update(active: true)
     end
 
     def before_enter(_issue)
