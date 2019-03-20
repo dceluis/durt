@@ -2,6 +2,10 @@
 
 module Durt
   class TimeTracker
+    def self.active?
+      true
+    end
+
     def self.enter(_memo)
       raise NotImplementedError
     end
