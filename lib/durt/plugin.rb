@@ -28,6 +28,10 @@ module Durt
       name.split('::').last.sub('Plugin', '')
     end
 
+    def self.demo_config
+      nil
+    end
+
     def filter
       nil
     end
