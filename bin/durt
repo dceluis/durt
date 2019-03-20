@@ -12,7 +12,9 @@ options = ARGV[1..-1]
 current_project = Durt::Project.current_project
 plugins = current_project.plugins
 
-if command == 'filter'
+if command == 'new-project'
+  Durt::Project.create_project
+elsif command == 'filter'
   plugins.each(&:filter)
 elsif command == 'memo'
   bt_plugin = current_project.bug_tracker_plugin

@@ -4,6 +4,16 @@ require_relative 'plugin'
 
 module Durt
   class JiraPlugin < Plugin
+    def self.demo_config
+      {
+        username: 'example@mail.com',
+        password: 'password',
+        site: 'http://project.atlassian.net:443/',
+        context_path: '',
+        auth_type: :basic
+      }
+    end
+
     def before_choose
       bug_tracker.fetch_issues
     end

@@ -36,6 +36,29 @@ module Durt
     def active_issue
       issues.find_by!(active: true)
     end
+
+    def self.create_project
+      project_name = prompt.ask('What will you name our project?')
+
+      create(name: project_name, active: true).tap do |project|
+        create_project_config(project)
+      end
+    end
+
+    def self.create_project_config(project)
+      plugin_choices = Durt::Plugin.all.map(&:plugin_name)
+
+      plugins_config =
+        prompt
+        .multi_select('Select plugins', plugin_choices)
+        .map { |p_name| [p_name, Durt::Plugin.find_by_plugin_name(p_name).demo_config] }
+        .to_h
+
+      project.config!('plugins' => plugins_config)
+    end
+
+    def self.prompt
+      TTY::Prompt.new
+    end
   end
 end
-

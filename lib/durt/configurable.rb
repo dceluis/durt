@@ -13,6 +13,12 @@ module Durt
       end
     end
 
+    def config!(value)
+      config_store.transaction do
+        config_store[config_key] = value
+      end
+    end
+
     def config?
       !config.nil?
     end
