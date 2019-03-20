@@ -19,6 +19,10 @@ module Durt
       end
     end
 
+    def filter
+      nil
+    end
+
     def before_pick
       nil
     end
@@ -97,6 +101,14 @@ module Durt
       bug_tracker.fetch_issues
     end
 
+    def filter
+      message = 'Select the statuses that you want to include:'
+      chosen_statuses = prompt.multi_select(message, statuses.to_choice_h)
+
+      statuses.update_all(active: false)
+      statuses.where(id: chosen_statuses).update_all(active: true)
+    end
+
     def time_tracker
       nil
     end
@@ -109,6 +121,20 @@ module Durt
 
     def config_key
       'Jira'
+    end
+
+    def statuses
+      bug_tracker.statuses
+    end
+
+    def issues
+      bug_tracker.issues
+    end
+
+    private
+
+    def prompt
+      @prompt ||= TTY::Prompt.new
     end
 
     class NotConfiguredError < StandardError
