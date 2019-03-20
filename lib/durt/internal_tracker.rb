@@ -3,7 +3,7 @@
 require_relative 'time_tracker'
 
 module Durt
-  class InternalTracker
+  class InternalTracker < TimeTracker
     def self.enter(issue)
       Durt::Issue.all.update_all(active: false)
       issue.update(active: true)
