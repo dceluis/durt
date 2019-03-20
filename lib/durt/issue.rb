@@ -8,6 +8,8 @@ module Durt
     before_validation :sanitize_summary
     has_many :sessions
 
+    scope :to_choice_h, -> { Hash[map { |i| [i.to_s, i] }] }
+
     def self.active_issue
       Durt::Issue.find_by!(active: true) || Durt::Issue.last
     end
