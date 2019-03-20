@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'plugin'
+
 module Durt
   class JiraPlugin < Plugin
     include Configurable
