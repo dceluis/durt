@@ -10,8 +10,13 @@ require 'irb'
 command = ARGV[0]
 options = ARGV[1..-1]
 
-current_project = Durt::Project.current_project
-plugins = current_project.plugins
+def current_project
+  Durt::Project.current_project
+end
+
+def plugins
+  current_project.plugins
+end
 
 if command == 'new-project'
   Durt::Project.create_project

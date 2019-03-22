@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'jira-ruby', '~> 1.6'
   s.add_runtime_dependency 'octokit', '~> 4.13'
   s.add_runtime_dependency 'sqlite3', '~> 1.3.6'
+  s.add_runtime_dependency 'tracker_api', '~> 1.9'
   s.add_runtime_dependency 'tty-prompt', '~> 0.18'
 
   s.add_development_dependency 'aruba', '~> 0.14'
