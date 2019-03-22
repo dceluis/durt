@@ -11,6 +11,7 @@ module Durt
   require_relative 'durt/upwork_plugin'
   require_relative 'durt/github_plugin'
   require_relative 'durt/jira_plugin'
+  require_relative 'durt/pivotal_plugin'
   require_relative 'durt/ebs_plugin'
 
   require_relative 'durt/issue'
@@ -23,5 +24,6 @@ module Durt
   require_relative 'durt/null_bug_tracker'
   require_relative 'durt/github_bug_tracker'
   require_relative 'durt/jira_bug_tracker'
+  require_relative 'durt/pivotal_bug_tracker'
   require_relative 'durt/internal_bug_tracker'
 end
