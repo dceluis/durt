@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require_relative '../lib/durt'
+require 'irb'
 
 # Read lines from both file or STDIN
 # lines = (ARGV[0] ? IO.readlines(ARGV[0]) : ARGF.readlines).map(&:chomp)
@@ -42,4 +43,7 @@ elsif command == 'edit-estimate'
   Durt::EbsPlugin.edit_estimate(active_issue)
 elsif command == '-v'
   puts Durt::VERSION
+elsif command == 'c'
+  ARGV.clear
+  IRB.start
 end
