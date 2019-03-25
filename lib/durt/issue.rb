@@ -7,6 +7,7 @@ module Durt
   class Issue < ApplicationRecord
     before_validation :sanitize_summary
     has_many :sessions, dependent: :destroy
+    belongs_to :project
 
     scope :to_choice_h, -> { Hash[map { |i| [i.to_s, i] }] }
     scope :active, -> { where(active: true) }

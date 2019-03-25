@@ -16,10 +16,10 @@ module Durt
     end
 
     def fetch_stories
-      issues = project.stories(filter: "owner:#{current_user.id}")
+      fetched_issues = source_project.stories(filter: "owner:#{current_user.id}")
 
-      issues.map do |issue|
-        Durt::Issue.find_or_create_by(key: issue.id, source: 'Pivotal') do |i|
+      fetched_issues.map do |issue|
+        issues.find_or_create_by(key: issue.id) do |i|
           i.summary = issue.name
         end
       end
@@ -31,7 +31,7 @@ module Durt
 
     private
 
-    def project
+    def source_project
       client.project(@config[:project])
     end
 

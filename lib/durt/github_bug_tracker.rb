@@ -13,10 +13,10 @@ module Durt
     end
 
     def fetch_issues
-      issues = client.issues(fetch_issues_query)
+      fetched_issues = client.issues(fetch_issues_query)
 
-      issues.map do |issue|
-        Durt::Issue.find_or_create_by(key: issue.number, source: 'Github') do |i|
+      fetched_issues.map do |issue|
+        issues.find_or_create_by(key: issue.number) do |i|
           i.summary = issue.title
         end
       end

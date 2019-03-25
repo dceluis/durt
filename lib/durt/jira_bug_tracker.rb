@@ -12,10 +12,10 @@ module Durt
     end
 
     def fetch_issues
-      issues = @client.Issue.jql(fetch_issues_query)
+      fetched_issues = @client.Issue.jql(fetch_issues_query)
 
-      issues.map do |issue|
-        Durt::Issue.find_or_create_by(key: issue.key, source: 'Jira') do |i|
+      fetched_issues.map do |issue|
+        issues.find_or_create_by(key: issue.key) do |i|
           i.summary = issue.summary
         end
       end

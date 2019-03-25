@@ -30,11 +30,15 @@ module Durt
     end
 
     def issues
-      Durt::Issue.where(source: source_name)
+      project.issues.where(source: source_name)
     end
 
     def statuses
       Durt::Status.where(source: source_name)
+    end
+
+    def project
+      Durt::Project.current_project
     end
   end
 end
