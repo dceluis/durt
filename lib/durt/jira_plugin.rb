@@ -36,5 +36,8 @@ module Durt
       bug_tracker.statuses
     end
 
+    def prompt
+      TTY::Prompt.new
+    end
   end
 end
