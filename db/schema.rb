@@ -10,16 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_20_034001) do
+ActiveRecord::Schema.define(version: 2019_03_11_072306) do
 
   create_table "issues", force: :cascade do |t|
     t.string "key", null: false
     t.string "source", null: false
+    t.integer "project_id", null: false
     t.text "summary", null: false
     t.integer "estimate"
     t.boolean "active", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_issues_on_project_id"
   end
 
   create_table "projects", force: :cascade do |t|
