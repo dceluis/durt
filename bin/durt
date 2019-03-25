@@ -20,6 +20,8 @@ end
 
 if command == 'new-project'
   Durt::Project.create_project
+elsif command == 'select-project'
+  Durt::Project.select_project
 elsif command == 'filter'
   plugins.each(&:filter)
 elsif command == 'memo'

@@ -46,11 +46,25 @@ module Durt
       prompt.select('Select source', source_choices)
     end
 
+    def self.select_project
+      project_choices =
+        all.map { |project| [project.name, project] }.to_h
+
+      selected = prompt.select('Select project', project_choices)
+
+      project!(selected)
+    end
+
+    def self.project!(project)
+      update_all(active: false)
+      project.update(active: true)
+    end
+
     def self.create_project
       project_name = prompt.ask('What will you name our project?')
 
-      update_all(active: false)
-      create(name: project_name, active: true).tap do |project|
+      create(name: project_name).tap do |project|
+        project!(project)
         create_project_config(project)
       end
     end
