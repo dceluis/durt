@@ -4,7 +4,7 @@ require 'tty-prompt'
 
 module Durt
   class Plugin
-    attr_reader :config
+    attr_reader :project, :config
 
     PLUGINS = %w[Upwork Pivotal Jira Github Internal Ebs].freeze
 
@@ -16,7 +16,8 @@ module Durt
       end
     end
 
-    def initialize(config = nil)
+    def initialize(project, config = nil)
+      @project = project
       @config = config
     end
 
@@ -95,7 +96,7 @@ module Durt
         raise NotConfiguredError, "#{plugin_name} plugin is not configured"
       end
 
-      bug_tracker_class.new(@config)
+      bug_tracker_class.new(project, @config)
     end
 
     private

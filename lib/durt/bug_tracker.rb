@@ -4,8 +4,10 @@ require 'jira-ruby'
 
 module Durt
   class BugTracker
+    attr_reader :project
 
-    def initialize(config = nil)
+    def initialize(project, config = nil)
+      @project = project
       @config = config
 
       after_initialize
@@ -35,10 +37,6 @@ module Durt
 
     def statuses
       Durt::Status.where(source: source_name)
-    end
-
-    def project
-      Durt::Project.current_project
     end
   end
 end

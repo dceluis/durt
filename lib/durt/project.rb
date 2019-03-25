@@ -15,7 +15,7 @@ module Durt
     def plugins
       @plugins ||=
         config['plugins'].map do |plugin_name, plugin_config|
-          Durt::Plugin.find_by_plugin_name(plugin_name).new(plugin_config)
+          Durt::Plugin.find_by_plugin_name(plugin_name).new(self, plugin_config)
         end
     end
 
