@@ -54,7 +54,7 @@ module Durt
       project_name = prompt.ask('What will you name our project?')
 
       create(name: project_name).tap do |project|
-        project.active!
+        Durt::Project.active!(project)
         create_project_config(project)
       end
     end

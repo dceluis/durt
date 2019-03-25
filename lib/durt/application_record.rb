@@ -11,15 +11,15 @@ module Durt
 
     scope :to_choice_h, -> { Hash[map { |r| [r.to_s, r] }] }
 
-    def active!
-      reload.update(active: true)
+    def self.active!(record)
+      update_all(active: false)
+      record.reload.update(active: true)
     end
 
     def self.select!
-      prompt.select("Select #{self.class.name}", all.to_choice_h).tap do |choice|
+      prompt.select("Select #{name}", to_choice_h).tap do |choice|
         puts "Selected: #{choice}\n"
-        update_all(active: false)
-        choice.active!
+        active!(choice)
       end
     end
 
