@@ -4,6 +4,15 @@ require 'jira-ruby'
 
 module Durt
   class BugTracker
+
+    def initialize(config = nil)
+      @config = config
+
+      after_initialize
+    end
+
+    def after_initialize; end
+
     def active?
       true
     end

@@ -7,8 +7,8 @@ module Durt
   class JiraBugTracker < BugTracker
     attr_accessor :client
 
-    def initialize(config)
-      @client = JIRA::Client.new(config)
+    def after_initialize
+      @client = JIRA::Client.new(@config)
     end
 
     def fetch_issues

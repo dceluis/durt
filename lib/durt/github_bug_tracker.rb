@@ -7,9 +7,8 @@ module Durt
   class GithubBugTracker < BugTracker
     attr_accessor :client
 
-    def initialize(config)
-      @config = config
-      @client = Octokit::Client.new(config)
+    def after_initialize
+      @client = Octokit::Client.new(@config)
       @client.auto_paginate = true
     end
 

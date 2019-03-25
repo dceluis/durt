@@ -7,8 +7,7 @@ module Durt
   class PivotalBugTracker < BugTracker
     attr_accessor :client
 
-    def initialize(config)
-      @config = config
+    def after_initialize
       @client = TrackerApi::Client.new(token: @config[:token])
     end
 
