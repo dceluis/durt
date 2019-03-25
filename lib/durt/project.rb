@@ -17,8 +17,8 @@ module Durt
         end
     end
 
-    def bug_tracker_plugin
-      plugins.find { |p| p.bug_tracker.active? }
+    def bug_tracker_plugins
+      plugins.find_all { |p| p.bug_tracker.active? }
     end
 
     def time_tracker_plugins
@@ -26,7 +26,7 @@ module Durt
     end
 
     def issues
-      bug_tracker_plugin.issues
+      bug_tracker_plugins.map(&:issues).flatten
     end
 
     def config_key
@@ -35,6 +35,17 @@ module Durt
 
     def active_issue
       issues.find_by!(active: true)
+    end
+
+    def self.select_source(project)
+      bug_tracker_plugins = project.bug_tracker_plugins
+
+      return bug_tracker_plugins.first if bug_tracker_plugins.length == 1
+
+      source_choices =
+        bug_tracker_plugins.map { |btp| [btp.plugin_name, btp] }.to_h
+
+      prompt.select('Select source', source_choices)
     end
 
     def self.create_project

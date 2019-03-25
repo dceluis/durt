@@ -23,7 +23,7 @@ if command == 'new-project'
 elsif command == 'filter'
   plugins.each(&:filter)
 elsif command == 'memo'
-  bt_plugin = current_project.bug_tracker_plugin
+  bt_plugin = Durt::Project.select_source(current_project)
 
   bt_plugin.before_choose
   issue = bt_plugin.choose

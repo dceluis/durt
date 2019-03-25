@@ -40,6 +40,10 @@ module Durt
       nil
     end
 
+    def plugin_name
+      self.class.plugin_name
+    end
+
     def choose
       return if issues.empty?
 
