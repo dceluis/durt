@@ -91,8 +91,8 @@ module Durt
     end
 
     def bug_tracker
-      if config_required?
-        raise NotConfiguredError unless @config
+      if config_required? && not_configured?
+        raise NotConfiguredError, "#{plugin_name} plugin is not configured"
       end
 
       bug_tracker_class.new(@config)
@@ -102,6 +102,10 @@ module Durt
 
     def config_required?
       false
+    end
+
+    def not_configured?
+      @config == self.class.demo_config
     end
 
     def time_tracker_class

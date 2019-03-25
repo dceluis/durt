@@ -22,10 +22,6 @@ module Durt
 
     private
 
-    def config_required?
-      true
-    end
-
     def prompt
       @prompt ||= TTY::Prompt.new
     end
