@@ -6,6 +6,8 @@ module Durt
   class Project < ApplicationRecord
     include Configurable
 
+    has_many :issues, dependent: :destroy
+
     def self.current_project
       @current_project ||= find_by!(active: true)
     end
@@ -23,10 +25,6 @@ module Durt
 
     def time_tracker_plugins
       plugins.find_all { |p| p.time_tracker.active? }
-    end
-
-    def issues
-      bug_tracker_plugins.map(&:issues).flatten
     end
 
     def config_key

@@ -87,17 +87,36 @@ module Durt
     end
 
     def time_tracker
-      Durt::NullTimeTracker
+      time_tracker_class
     end
 
     def bug_tracker
-      Durt::NullBugTracker.new
+      if config_required?
+        raise NotConfiguredError unless @config
+      end
+
+      bug_tracker_class.new(@config)
     end
 
     private
 
+    def config_required?
+      false
+    end
+
+    def time_tracker_class
+      Durt::NullTimeTracker
+    end
+
+    def bug_tracker_class
+      Durt::NullBugTracker
+    end
+
     def prompt
       @prompt ||= TTY::Prompt.new
+    end
+
+    class NotConfiguredError < StandardError
     end
   end
 end

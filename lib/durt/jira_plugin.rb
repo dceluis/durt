@@ -28,17 +28,13 @@ module Durt
       statuses.where(id: chosen_statuses).update_all(active: true)
     end
 
-    def bug_tracker
-      raise NotConfiguredError unless config
-
-      Durt::JiraBugTracker.new(config)
+    def bug_tracker_class
+      Durt::JiraBugTracker
     end
 
     def statuses
       bug_tracker.statuses
     end
 
-    class NotConfiguredError < StandardError
-    end
   end
 end

@@ -12,15 +12,19 @@ module Durt
       time_tracker.stop
     end
 
-    def time_tracker
+    def time_tracker_class
       Durt::InternalTracker
     end
 
-    def bug_tracker
-      Durt::InternalBugTracker.new
+    def bug_tracker_class
+      Durt::InternalBugTracker
     end
 
     private
+
+    def config_required?
+      true
+    end
 
     def prompt
       @prompt ||= TTY::Prompt.new

@@ -12,13 +12,12 @@ module Durt
       bug_tracker.fetch_issues
     end
 
-    def bug_tracker
-      raise NotConfiguredError unless config
-
-      Durt::GithubBugTracker.new(config)
+    def bug_tracker_class
+      Durt::GithubBugTracker
     end
 
-    class NotConfiguredError < StandardError
+    def config_required?
+      true
     end
   end
 end

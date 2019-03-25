@@ -16,7 +16,7 @@ module Durt
       time_tracker.stop
     end
 
-    def time_tracker
+    def time_tracker_class
       Durt::UpworkTracker
     end
   end
