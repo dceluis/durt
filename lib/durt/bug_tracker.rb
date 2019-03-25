@@ -19,6 +19,10 @@ module Durt
       true
     end
 
+    def choose
+      issues.select!
+    end
+
     def fetch_issues
       raise NotImplementedError
     end

@@ -46,17 +46,7 @@ module Durt
     end
 
     def choose
-      return if issues.empty?
-
-      prompt.select('What will you work on?', issues.to_choice_h).tap do |issue|
-        puts "Selected: #{issue}\n"
-        commit(issue)
-      end
-    end
-
-    def commit(issue)
-      issues.update_all(active: false)
-      issue.reload.update(active: true)
+      bug_tracker.choose
     end
 
     def before_enter(_issue)
@@ -77,14 +67,6 @@ module Durt
     def stop
       # system("#{command} issue.to_json or sth")
       nil
-    end
-
-    def issues
-      bug_tracker.issues
-    end
-
-    def command
-      # "durt-#{config[:name]}" || config[:command]
     end
 
     def time_tracker
@@ -115,10 +97,6 @@ module Durt
 
     def bug_tracker_class
       Durt::NullBugTracker
-    end
-
-    def prompt
-      @prompt ||= TTY::Prompt.new
     end
 
     class NotConfiguredError < StandardError

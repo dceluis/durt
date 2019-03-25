@@ -9,7 +9,6 @@ module Durt
     has_many :sessions, dependent: :destroy
     belongs_to :project
 
-    scope :to_choice_h, -> { Hash[map { |i| [i.to_s, i] }] }
     scope :active, -> { where(active: true) }
 
     def tracking?

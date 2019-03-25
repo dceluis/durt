@@ -19,11 +19,5 @@ module Durt
     def bug_tracker_class
       Durt::InternalBugTracker
     end
-
-    private
-
-    def prompt
-      @prompt ||= TTY::Prompt.new
-    end
   end
 end

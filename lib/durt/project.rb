@@ -12,6 +12,10 @@ module Durt
       @current_project ||= find_by!(active: true)
     end
 
+    def to_s
+      name
+    end
+
     def plugins
       @plugins ||=
         config['plugins'].map do |plugin_name, plugin_config|
@@ -46,25 +50,11 @@ module Durt
       prompt.select('Select source', source_choices)
     end
 
-    def self.select_project
-      project_choices =
-        all.map { |project| [project.name, project] }.to_h
-
-      selected = prompt.select('Select project', project_choices)
-
-      project!(selected)
-    end
-
-    def self.project!(project)
-      update_all(active: false)
-      project.update(active: true)
-    end
-
     def self.create_project
       project_name = prompt.ask('What will you name our project?')
 
       create(name: project_name).tap do |project|
-        project!(project)
+        project.active!
         create_project_config(project)
       end
     end
@@ -79,10 +69,6 @@ module Durt
         .to_h
 
       project.config!('plugins' => plugins_config)
-    end
-
-    def self.prompt
-      TTY::Prompt.new
     end
   end
 end
