@@ -49,6 +49,10 @@ module Durt
       bug_tracker.choose
     end
 
+    def switch_project
+      time_tracker.switch_project
+    end
+
     def before_enter(_issue)
       # system("#{command} issue.to_json or sth")
       nil

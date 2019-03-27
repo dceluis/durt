@@ -56,6 +56,7 @@ module Durt
       create(name: project_name).tap do |project|
         Durt::Project.active!(project)
         create_project_config(project)
+        project.time_tracker_plugins.each(&:switch_project)
       end
     end
 
