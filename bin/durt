@@ -10,7 +10,7 @@ require 'irb'
 # puts Durt::VERSION
 
 command = ARGV[0]
-options = ARGV[1..-1]
+# options = ARGV[1..-1]
 
 def current_project
   Durt::Project.current_project

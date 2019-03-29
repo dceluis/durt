@@ -25,7 +25,7 @@ module Durt
       end
     end
 
-    def comment(_key, _c)
+    def comment(_key, _comment)
       nil
     end
 

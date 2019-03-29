@@ -7,22 +7,10 @@
 # versions of RuboCop, may require this file to be generated again.
 
 # Offense count: 1
-Lint/UselessAssignment:
-  Exclude:
-    - 'bin/durt'
-
-# Offense count: 1
 # Configuration parameters: CountComments, ExcludedMethods.
-# ExcludedMethods: refine
 Metrics/BlockLength:
-  Max: 29
-
-# Offense count: 1
-# Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
-# AllowedNames: io, id, to, by, on, in, at, ip, db
-Naming/UncommunicativeMethodParamName:
   Exclude:
-    - 'lib/durt/pivotal_bug_tracker.rb'
+    - 'db/schema.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
