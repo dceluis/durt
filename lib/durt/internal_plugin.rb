@@ -4,11 +4,11 @@ require_relative 'plugin'
 
 module Durt
   class InternalPlugin < Plugin
-    def start
+    def start(_value)
       time_tracker.start
     end
 
-    def stop
+    def stop(_value)
       time_tracker.stop
     end
 

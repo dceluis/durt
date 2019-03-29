@@ -8,11 +8,11 @@ module Durt
       time_tracker.enter(issue)
     end
 
-    def start
+    def start(_value)
       time_tracker.start
     end
 
-    def stop
+    def stop(_value)
       time_tracker.stop
     end
 
