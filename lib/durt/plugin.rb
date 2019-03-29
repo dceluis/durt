@@ -33,19 +33,19 @@ module Durt
       nil
     end
 
-    def filter
-      nil
+    def filter(value)
+      value
     end
 
-    def before_choose
-      nil
+    def before_choose(value)
+      value
     end
 
     def plugin_name
       self.class.plugin_name
     end
 
-    def choose
+    def choose(_value)
       bug_tracker.choose
     end
 
@@ -53,24 +53,20 @@ module Durt
       time_tracker.switch_project
     end
 
-    def before_enter(_issue)
-      # system("#{command} issue.to_json or sth")
-      nil
+    def before_enter(value)
+      value
     end
 
-    def enter(_issue)
-      # system("#{command} issue.to_json or sth")
-      nil
+    def enter(issue)
+      issue
     end
 
-    def start
-      # system("#{command} issue.to_json or sth")
-      nil
+    def start(issue)
+      issue
     end
 
-    def stop
-      # system("#{command} issue.to_json or sth")
-      nil
+    def stop(issue)
+      issue
     end
 
     def time_tracker

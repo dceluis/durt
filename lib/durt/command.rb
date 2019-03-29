@@ -27,16 +27,41 @@ module Durt
     end
 
     class Memo < ::Durt::Service
-      def call
+      def initialize
+        @state = nil
+
         bt_plugin = Durt::Project.select_source(current_project)
 
-        bt_plugin.before_choose
-        issue = bt_plugin.choose
+        push_step ->(_state) { bt_plugin.before_choose }
+
+        push_step ->(_state) { bt_plugin.choose }
 
         tt_plugins = current_project.time_tracker_plugins
 
-        tt_plugins.each { |plugin| plugin.before_enter(issue) }
-        tt_plugins.each { |plugin| plugin.enter(issue) }
+        tt_plugins.each do |plugin|
+          push_step ->(state) { plugin.before_enter(state) }
+        end
+
+        tt_plugins.each do |plugin|
+          push_step ->(state) { plugin.enter(state) }
+        end
+      end
+
+      def call
+        steps.each do |step|
+          @state = step.call(@state)
+        end
+        @state
+      end
+
+      private
+
+      def steps
+        @steps ||= []
+      end
+
+      def push_step(step)
+        steps << step
       end
     end
 
