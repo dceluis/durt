@@ -6,8 +6,8 @@ module Durt
 
     attr_reader :result
 
-    def self.call(*args, **kwargs)
-      new(*args, **kwargs).tap do |service|
+    def self.call(*args)
+      new(*args).tap do |service|
         service.instance_variable_set('@result', service.call)
       end
     end

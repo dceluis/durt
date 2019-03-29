@@ -14,7 +14,7 @@ module Durt
 
       input_in_seconds = estimate_input_to_seconds(estimate_input)
 
-      EstimateIssue.call(issue: issue, estimation: input_in_seconds)
+      EstimateIssue.call(issue, input_in_seconds)
       issue
     end
 
@@ -42,7 +42,7 @@ module Durt
     end
 
     class EstimateIssue < ::Durt::Service
-      def initialize(issue:, estimation:)
+      def initialize(issue, estimation)
         @issue = issue
         @estimation = estimation
       end
