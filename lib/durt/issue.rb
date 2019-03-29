@@ -59,7 +59,6 @@ module Durt
       puts stats
     end
 
-
     def estimation_result_label
       return 'Underestimated' if underestimated?
       return 'Overestimated' if overestimated?
