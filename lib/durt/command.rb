@@ -50,16 +50,16 @@ module Durt
 
     class Start < ::Durt::Service
       def initialize
-        steps << ->(_state) do
-          Durt::Project.current_project.plugins.each(&:start)
+        Durt::Project.current_project.plugins.each do |plugin|
+          steps << ->(state) { plugin.start(state) }
         end
       end
     end
 
     class Stop < ::Durt::Service
       def initialize
-        steps << ->(_state) do
-          Durt::Project.current_project.plugins.each(&:stop)
+        Durt::Project.current_project.plugins.each do |plugin|
+          steps << ->(state) { plugin.stop(state) }
         end
       end
     end
