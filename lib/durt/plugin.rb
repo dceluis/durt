@@ -45,8 +45,8 @@ module Durt
       self.class.plugin_name
     end
 
-    def choose(_value)
-      bug_tracker.choose
+    def choose(value)
+      bug_tracker.choose(value)
     end
 
     def switch_project

@@ -14,7 +14,7 @@ module Durt
       }
     end
 
-    def before_choose
+    def before_choose(_value)
       bug_tracker.fetch_issues
     end
 

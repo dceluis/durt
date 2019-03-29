@@ -19,8 +19,10 @@ module Durt
       true
     end
 
-    def choose
-      issues.select!
+    def choose(values)
+      ids = values.map(&:id)
+
+      issues.where(id: ids).select!
     end
 
     def fetch_issues

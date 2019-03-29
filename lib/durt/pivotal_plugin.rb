@@ -8,7 +8,7 @@ module Durt
       { token: 'account_token', project: 'project' }
     end
 
-    def before_choose
+    def before_choose(_value)
       bug_tracker.fetch_issues
     end
 
