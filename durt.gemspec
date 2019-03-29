@@ -1,6 +1,6 @@
-# encoding: utf-8
-require File.expand_path('lib/durt/version', __dir__)
+# frozen_string_literal: true
 
+require File.expand_path('lib/durt/version', __dir__)
 
 files = `git ls-files -z`.split("\x0")
 
@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.version = Durt::VERSION
   s.authors = ['Luis Felipe Sanchez']
   s.homepage = 'https://durt.github.io'
-  s.summary = %q{Unify tools for EBS}
-  s.description = %q{EBS tool for me}
+  s.summary = 'Unify tools for EBS'
+  s.description = 'EBS tool for me'
   s.licenses = ['MIT']
 
   s.files = files.reject { |f| f.match(%r{^(coverage|test|spec|features)/}) }
