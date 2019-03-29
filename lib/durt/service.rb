@@ -8,10 +8,7 @@ module Durt
 
     def self.call(*args, **kwargs)
       new(*args, **kwargs).tap do |service|
-        service.instance_variable_set(
-          '@result',
-          service.call
-        )
+        service.instance_variable_set('@result', service.call)
       end
     end
   end
