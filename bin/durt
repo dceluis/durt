@@ -20,26 +20,7 @@ def plugins
   current_project.plugins
 end
 
-if command == 'new-project'
-  Durt::Project.create_project
-elsif command == 'select-project'
-  Durt::Project.select!
-  current_project.time_tracker_plugins.each(&:switch_project)
-elsif command == 'filter'
-  plugins.each(&:filter)
-elsif command == 'memo'
-  bt_plugin = Durt::Project.select_source(current_project)
-
-  bt_plugin.before_choose
-  issue = bt_plugin.choose
-
-  tt_plugins = current_project.time_tracker_plugins
-
-  tt_plugins.each { |plugin| plugin.before_enter(issue) }
-  tt_plugins.each { |plugin| plugin.enter(issue) }
-elsif command == 'stats-all'
-  current_project.issues.each(&:puts_stats)
-elsif command == 'db'
+if command == 'db'
   system("sqlitebrowser #{Durt::DB_PATH}")
 elsif command == 'edit-estimate'
   active_issue = current_project.active_issue
