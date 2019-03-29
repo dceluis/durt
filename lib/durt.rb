@@ -7,6 +7,8 @@ module Durt
   require_relative 'durt/project'
   require_relative 'durt/service'
 
+  require_relative 'durt/command'
+
   require_relative 'durt/internal_plugin'
   require_relative 'durt/upwork_plugin'
   require_relative 'durt/github_plugin'

@@ -35,12 +35,6 @@ elsif command == 'memo'
 
   tt_plugins.each { |plugin| plugin.before_enter(issue) }
   tt_plugins.each { |plugin| plugin.enter(issue) }
-elsif command == 'start'
-  plugins.each(&:start)
-elsif command == 'stop'
-  plugins.each(&:stop)
-elsif command == 'stats'
-  current_project.active_issue.puts_stats
 elsif command == 'stats-all'
   current_project.issues.each(&:puts_stats)
 elsif command == 'db'
@@ -54,4 +48,8 @@ elsif command == '-v'
 elsif command == 'c'
   ARGV.clear
   IRB.start
+else
+  const_name = "Durt::Command::#{command.underscore.camelize}"
+
+  const_name.constantize.call if Object.const_defined? const_name
 end
