@@ -32,25 +32,23 @@ module Durt
 
         bt_plugin = Durt::Project.select_source(current_project)
 
-        push_step ->(state) { bt_plugin.before_choose(state) }
+        steps << ->(state) { bt_plugin.before_choose(state) }
 
-        push_step ->(state) { bt_plugin.choose(state) }
+        steps << ->(state) { bt_plugin.choose(state) }
 
         tt_plugins = current_project.time_tracker_plugins
 
         tt_plugins.each do |plugin|
-          push_step ->(state) { plugin.before_enter(state) }
+          steps << ->(state) { plugin.before_enter(state) }
         end
 
         tt_plugins.each do |plugin|
-          push_step ->(state) { plugin.enter(state) }
+          steps << ->(state) { plugin.enter(state) }
         end
       end
 
       def call
-        steps.each_with_index do |step, i|
-          puts "State number #{i}"
-          pp @state
+        steps.each do |step|
           @state = step.call(@state)
         end
         @state
