@@ -16,10 +16,6 @@ def current_project
   Durt::Project.current_project
 end
 
-def plugins
-  current_project.plugins
-end
-
 if command == 'db'
   system("sqlitebrowser #{Durt::DB_PATH}")
 elsif command == 'edit-estimate'
