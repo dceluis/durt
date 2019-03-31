@@ -6,25 +6,26 @@ module Durt
   module Command
     class NewProject < ::Durt::Service
       def initialize
-        steps << ->(_state) { Durt::Project.create_project }
+        plugin = Durt::ProjectPlugin.new('NilProject')
+
+        steps << ->(_state) { plugin.create_project }
+        steps << ->(state) { plugin.create_project_config(state) }
+        steps << ->(state) { state.time_tracker_plugins.each(&:switch_project) }
       end
     end
 
     class SelectProject < ::Durt::Service
       def initialize
-        steps << (->(_state) do
-          Durt::Project.select!
-          Durt::Project
-            .current_project
-            .time_tracker_plugins
-            .each(&:switch_project)
-        end)
+        steps << ->(_state) { Durt::Project.select! }
+        steps << ->(state) { state.time_tracker_plugins.each(&:switch_project) }
       end
     end
 
     class Filter < ::Durt::Service
-      def call
-        Durt::Project.current_project.plugins.each(&:filter)
+      def initialize
+        Durt::Project.current_project.plugins.each do |plugin|
+          steps << ->(state) { plugin.filter(state) }
+        end
       end
     end
 
