@@ -46,7 +46,7 @@ module Durt
       `xdotool key ctrl+alt+0x005B`
     end
 
-    def self.switch_project
+    def self.switch_project(project)
       open_edit_memo
 
       `xdotool key Escape`
@@ -83,10 +83,6 @@ module Durt
       `xdotool key ctrl+alt+t`
       `xdotool key ctrl+alt+t`
       sleep(0.5)
-    end
-
-    def self.project
-      ::Durt::Project.current_project
     end
   end
 end

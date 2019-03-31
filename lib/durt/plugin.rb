@@ -50,7 +50,7 @@ module Durt
     end
 
     def switch_project
-      time_tracker.switch_project
+      time_tracker.switch_project(project)
     end
 
     def before_enter(value)

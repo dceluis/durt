@@ -6,7 +6,7 @@ module Durt
       true
     end
 
-    def self.switch_project; end
+    def self.switch_project(_project); end
 
     def self.enter(_memo)
       raise NotImplementedError
