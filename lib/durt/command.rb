@@ -65,7 +65,7 @@ module Durt
         plugin = Durt::ProjectController.new
 
         steps << ->(_state) { plugin.current_issue }
-        steps << ->(issue) { plugins.print_stats(issue) }
+        steps << ->(issue) { plugin.print_stats(issue) }
       end
     end
 
@@ -74,7 +74,7 @@ module Durt
         plugin = Durt::ProjectController.new
 
         steps << ->(_state) { plugin.current_project }
-        steps << ->(project) { plugins.print_stats(project) }
+        steps << ->(project) { plugin.print_stats(project) }
       end
     end
   end
