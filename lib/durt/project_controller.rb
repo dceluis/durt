@@ -3,7 +3,7 @@
 require_relative 'plugin'
 
 module Durt
-  class ProjectPlugin < Plugin
+  class ProjectController
     def current_project
       Durt::Project.current_project
     end

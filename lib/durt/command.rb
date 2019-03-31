@@ -6,7 +6,7 @@ module Durt
   module Command
     class NewProject < ::Durt::Service
       def initialize
-        plugin = Durt::ProjectPlugin.new('NilProject')
+        plugin = Durt::ProjectController.new
 
         steps << ->(_state) { plugin.create_project }
         steps << ->(state) { plugin.create_project_config(state) }
@@ -31,7 +31,7 @@ module Durt
 
     class Memo < ::Durt::Service
       def initialize
-        plugin = Durt::ProjectPlugin.new('NilProject')
+        plugin = Durt::ProjectController.new
 
         steps << ->(_state) { plugin.current_project }
         steps << ->(project) { plugin.choose_issue(project) }
@@ -41,7 +41,7 @@ module Durt
 
     class Start < ::Durt::Service
       def initialize
-        plugin = Durt::ProjectPlugin.new('NilProject')
+        plugin = Durt::ProjectController.new
 
         steps << ->(_state) { plugin.current_issue }
         steps << ->(issue) { plugin.start_issue(issue) }
@@ -50,7 +50,7 @@ module Durt
 
     class Stop < ::Durt::Service
       def initialize
-        plugin = Durt::ProjectPlugin.new('NilProject')
+        plugin = Durt::ProjectController.new
 
         steps << ->(_state) { plugin.current_issue }
         steps << ->(issue) { plugin.stop_issue(issue) }
