@@ -81,6 +81,10 @@ module Durt
       end
     end
 
+    def print_stats(model)
+      model.tap(&:puts_stats)
+    end
+
     private
 
     def select_source(project)

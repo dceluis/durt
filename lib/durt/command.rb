@@ -62,17 +62,19 @@ module Durt
 
     class Stats < ::Durt::Service
       def initialize
-        steps << ->(_state) do
-          Durt::Project.current_project.active_issue.puts_stats
-        end
+        plugin = Durt::ProjectController.new
+
+        steps << ->(_state) { plugin.current_issue }
+        steps << ->(issue) { plugins.print_stats(issue) }
       end
     end
 
     class StatsAll < ::Durt::Service
       def initialize
-        steps << ->(_state) do
-          Durt::Project.current_project.issues.each(&:puts_stats)
-        end
+        plugin = Durt::ProjectController.new
+
+        steps << ->(_state) { plugin.current_project }
+        steps << ->(project) { plugins.print_stats(project) }
       end
     end
   end

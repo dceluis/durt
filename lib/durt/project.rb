@@ -35,6 +35,10 @@ module Durt
       name
     end
 
+    def puts_stats
+      issues.each(&:puts_stats)
+    end
+
     def active_issue
       issues.find_by!(active: true)
     end
