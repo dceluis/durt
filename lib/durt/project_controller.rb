@@ -30,6 +30,14 @@ module Durt
       project.tap { |p| p.config!('plugins' => plugins_config) }
     end
 
+    def filter(project)
+      project.tap do |p|
+        p.plugins.each do |plugin|
+          plugin.filter(nil)
+        end
+      end
+    end
+
     def start_issue(issue)
       issue.tap do |i|
         plugins = i.project.time_tracker_plugins

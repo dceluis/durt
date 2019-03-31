@@ -18,7 +18,7 @@ module Durt
       bug_tracker.fetch_issues
     end
 
-    def filter
+    def filter(_value)
       bug_tracker.fetch_statuses
 
       message = 'Select the statuses that you want to include:'

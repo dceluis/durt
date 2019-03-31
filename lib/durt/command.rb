@@ -25,9 +25,10 @@ module Durt
 
     class Filter < ::Durt::Service
       def initialize
-        Durt::Project.current_project.plugins.each do |plugin|
-          steps << ->(state) { plugin.filter(state) }
-        end
+        plugin = Durt::ProjectController.new
+
+        steps << ->(_state) { plugin.current_project }
+        steps << ->(project) { plugin.filter(project) }
       end
     end
 
