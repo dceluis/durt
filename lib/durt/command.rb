@@ -6,75 +6,75 @@ module Durt
   module Command
     class NewProject < ::Durt::Service
       def initialize
-        plugin = Durt::ProjectController.new
+        controller = Durt::ProjectController.new
 
-        steps << ->(_state) { plugin.create_project }
-        steps << ->(state) { plugin.create_project_config(state) }
-        steps << ->(project) { plugin.switch_to_project(project) }
+        steps << ->(_state) { controller.create_project }
+        steps << ->(state) { controller.create_project_config(state) }
+        steps << ->(project) { controller.switch_to_project(project) }
       end
     end
 
     class SelectProject < ::Durt::Service
       def initialize
-        plugin = Durt::ProjectController.new
+        controller = Durt::ProjectController.new
 
         steps << ->(_state) { Durt::Project.select! }
-        steps << ->(project) { plugin.switch_to_project(project) }
+        steps << ->(project) { controller.switch_to_project(project) }
       end
     end
 
     class Filter < ::Durt::Service
       def initialize
-        plugin = Durt::ProjectController.new
+        controller = Durt::ProjectController.new
 
-        steps << ->(_state) { plugin.current_project }
-        steps << ->(project) { plugin.filter(project) }
+        steps << ->(_state) { controller.current_project }
+        steps << ->(project) { controller.filter(project) }
       end
     end
 
     class Memo < ::Durt::Service
       def initialize
-        plugin = Durt::ProjectController.new
+        controller = Durt::ProjectController.new
 
-        steps << ->(_state) { plugin.current_project }
-        steps << ->(project) { plugin.choose_issue(project) }
-        steps << ->(project) { plugin.process_issue(project) }
+        steps << ->(_state) { controller.current_project }
+        steps << ->(project) { controller.choose_issue(project) }
+        steps << ->(project) { controller.process_issue(project) }
       end
     end
 
     class Start < ::Durt::Service
       def initialize
-        plugin = Durt::ProjectController.new
+        controller = Durt::ProjectController.new
 
-        steps << ->(_state) { plugin.current_issue }
-        steps << ->(issue) { plugin.start_issue(issue) }
+        steps << ->(_state) { controller.current_issue }
+        steps << ->(issue) { controller.start_issue(issue) }
       end
     end
 
     class Stop < ::Durt::Service
       def initialize
-        plugin = Durt::ProjectController.new
+        controller = Durt::ProjectController.new
 
-        steps << ->(_state) { plugin.current_issue }
-        steps << ->(issue) { plugin.stop_issue(issue) }
+        steps << ->(_state) { controller.current_issue }
+        steps << ->(issue) { controller.stop_issue(issue) }
       end
     end
 
     class Stats < ::Durt::Service
       def initialize
-        plugin = Durt::ProjectController.new
+        controller = Durt::ProjectController.new
 
-        steps << ->(_state) { plugin.current_issue }
-        steps << ->(issue) { plugin.print_stats(issue) }
+        steps << ->(_state) { controller.current_issue }
+        steps << ->(issue) { controller.print_stats(issue) }
       end
     end
 
     class StatsAll < ::Durt::Service
       def initialize
-        plugin = Durt::ProjectController.new
+        controller = Durt::ProjectController.new
 
-        steps << ->(_state) { plugin.current_project }
-        steps << ->(project) { plugin.print_stats(project) }
+        steps << ->(_state) { controller.current_project }
+        steps << ->(project) { controller.print_stats(project) }
       end
     end
   end
