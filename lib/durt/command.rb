@@ -31,11 +31,15 @@ module Durt
 
     class Memo < ::Durt::Service
       def initialize
-        bt_plugin = Durt::Project.select_source(current_project)
+        project_plugin = Durt::ProjectPlugin.new('NilProject')
 
-        steps << ->(state) { bt_plugin.before_choose(state) }
+        steps << ->(_state) { Durt::Project.current_project }
+        steps << ->(project) { project_plugin.select_source(project) }
 
-        steps << ->(state) { bt_plugin.choose(state) }
+        steps << ->(bt_plugin) do
+          bt_plugin.before_choose(nil)
+          bt_plugin.choose(nil)
+        end
 
         tt_plugins = current_project.time_tracker_plugins
 

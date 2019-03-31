@@ -16,6 +16,17 @@ module Durt
       project.tap { |p| p.config!('plugins' => plugins_config) }
     end
 
+    def select_source(project)
+      bug_tracker_plugins = project.bug_tracker_plugins
+
+      return bug_tracker_plugins.first if bug_tracker_plugins.length == 1
+
+      source_choices =
+        bug_tracker_plugins.map { |btp| [btp.plugin_name, btp] }.to_h
+
+      prompt.select('Select source', source_choices)
+    end
+
     private
 
     def plugins_config
