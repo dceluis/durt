@@ -8,6 +8,10 @@ module Durt
       Durt::Project.current_project
     end
 
+    def current_issue
+      current_project.active_issue
+    end
+
     def create_project
       project_name = prompt.ask('What will you name your project?')
 
@@ -18,6 +22,26 @@ module Durt
 
     def create_project_config(project)
       project.tap { |p| p.config!('plugins' => plugins_config) }
+    end
+
+    def start_issue(issue)
+      issue.tap do |i|
+        plugins = i.project.time_tracker_plugins
+
+        plugins.each do |plugin|
+          plugin.start(i)
+        end
+      end
+    end
+
+    def stop_issue(issue)
+      issue.tap do |i|
+        plugins = i.project.time_tracker_plugins
+
+        plugins.each do |plugin|
+          plugin.stop(i)
+        end
+      end
     end
 
     def choose_issue(project)
@@ -55,8 +79,6 @@ module Durt
 
       prompt.select('Select source', source_choices)
     end
-
-    private
 
     def plugins_config
       plugin_choices = Durt::Plugin.all.map(&:plugin_name)

@@ -41,17 +41,19 @@ module Durt
 
     class Start < ::Durt::Service
       def initialize
-        Durt::Project.current_project.plugins.each do |plugin|
-          steps << ->(state) { plugin.start(state) }
-        end
+        plugin = Durt::ProjectPlugin.new('NilProject')
+
+        steps << ->(_state) { plugin.current_issue }
+        steps << ->(issue) { plugin.start_issue(issue) }
       end
     end
 
     class Stop < ::Durt::Service
       def initialize
-        Durt::Project.current_project.plugins.each do |plugin|
-          steps << ->(state) { plugin.stop(state) }
-        end
+        plugin = Durt::ProjectPlugin.new('NilProject')
+
+        steps << ->(_state) { plugin.current_issue }
+        steps << ->(issue) { plugin.stop_issue(issue) }
       end
     end
 
