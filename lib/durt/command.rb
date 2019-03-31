@@ -18,7 +18,7 @@ module Durt
       def initialize
         controller = Durt::ProjectController.new
 
-        steps << ->(_state) { Durt::Project.select! }
+        steps << ->(_state) { controller.select_project! }
         steps << ->(project) { controller.switch_to_project(project) }
       end
     end

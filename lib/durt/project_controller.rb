@@ -20,6 +20,10 @@ module Durt
       end
     end
 
+    def select_project
+      Durt::Project.select!
+    end
+
     def switch_to_project(project)
       project.tap do |p|
         p.time_tracker_plugins.each(&:switch_project)
