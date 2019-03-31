@@ -9,7 +9,7 @@ module Durt
 
   require_relative 'durt/command'
 
-  require_relative 'durt/project_plugin'
+  require_relative 'durt/project_controller'
   require_relative 'durt/internal_plugin'
   require_relative 'durt/upwork_plugin'
   require_relative 'durt/github_plugin'

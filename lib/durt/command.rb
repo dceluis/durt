@@ -10,14 +10,16 @@ module Durt
 
         steps << ->(_state) { plugin.create_project }
         steps << ->(state) { plugin.create_project_config(state) }
-        steps << ->(state) { state.time_tracker_plugins.each(&:switch_project) }
+        steps << ->(project) { plugin.switch_to_project(project) }
       end
     end
 
     class SelectProject < ::Durt::Service
       def initialize
+        plugin = Durt::ProjectController.new
+
         steps << ->(_state) { Durt::Project.select! }
-        steps << ->(state) { state.time_tracker_plugins.each(&:switch_project) }
+        steps << ->(project) { plugin.switch_to_project(project) }
       end
     end
 

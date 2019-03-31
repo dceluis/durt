@@ -20,6 +20,12 @@ module Durt
       end
     end
 
+    def switch_to_project(project)
+      project.tap do |p|
+        p.time_tracker_plugins.each(&:switch_project)
+      end
+    end
+
     def create_project_config(project)
       project.tap { |p| p.config!('plugins' => plugins_config) }
     end
