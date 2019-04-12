@@ -73,7 +73,7 @@ module Durt
 
     def process_issue(project)
       project.tap do |p|
-        plugins = p.time_tracker_plugins
+        plugins = p.plugins
 
         plugins.each do |plugin|
           plugin.before_enter(p.active_issue)

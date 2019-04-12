@@ -18,10 +18,6 @@ end
 
 if command == 'db'
   system("sqlitebrowser #{Durt::DB_PATH}")
-elsif command == 'edit-estimate'
-  active_issue = current_project.active_issue
-
-  Durt::EbsPlugin.edit_estimate(active_issue)
 elsif command == '-v'
   puts Durt::VERSION
 elsif command == 'c'

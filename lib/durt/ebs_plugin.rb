@@ -5,6 +5,8 @@ require_relative 'plugin'
 module Durt
   class EbsPlugin < Plugin
     def before_enter(issue)
+      return if issue.estimate?
+
       edit_estimate(issue)
     end
 
@@ -14,7 +16,7 @@ module Durt
 
       input_in_seconds = estimate_input_to_seconds(estimate_input)
 
-      EstimateIssue.call(issue, input_in_seconds)
+      issue.update(estimate: input_in_seconds)
       issue
     end
 
@@ -40,30 +42,26 @@ module Durt
     def prompt
       @prompt ||= TTY::Prompt.new
     end
+  end
+end
 
-    class EstimateIssue < ::Durt::Service
-      def initialize(issue, estimation)
-        @issue = issue
-        @estimation = estimation
+module Durt
+  module Command
+    class EditEstimate < Durt::Service
+      def initialize
+        controller = Durt::ProjectController.new
+
+        steps << ->(_state) { controller.current_issue }
+        steps << ->(issue) { controller.edit_estimate(issue) }
       end
+    end
+  end
+end
 
-      def call
-        @issue.update(estimate: @estimation)
-
-        plugins.each do |plugin|
-          plugin.bug_tracker.estimate(@issue.key, @estimation)
-        end
-      end
-
-      private
-
-      def plugins
-        valid_plugins = ['Jira']
-
-        Durt::Project.current_project.plugins.find_all do |p|
-          valid_plugins.include? p.name
-        end
-      end
+module Durt
+  class ProjectController
+    def edit_estimate(issue)
+      EbsPlugin.new(issue.project).edit_estimate(issue)
     end
   end
 end
