@@ -33,17 +33,17 @@ module Durt
       end
     end
 
-    def estimate(key, estimation)
-      comment(key, "Total seconds estimated for this task: #{estimation}")
-    end
-
-    def comment(key, content)
-      issue = client.Issue.find(key)
-
-      comment = issue.comments.build
-      comment.save(body: content)
-    end
-
+    # def estimate(key, estimation)
+    #   comment(key, "Total seconds estimated for this task: #{estimation}")
+    # end
+    #
+    # def comment(key, content)
+    #   issue = client.Issue.find(key)
+    #
+    #   comment = issue.comments.build
+    #   comment.save(body: content)
+    # end
+    #
     private
 
     def fetch_issues_query

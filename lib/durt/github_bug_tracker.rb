@@ -22,9 +22,9 @@ module Durt
       end
     end
 
-    def comment(_key, _content)
-      nil
-    end
+    # def comment(_key, _content)
+    #   nil
+    # end
 
     private
 
