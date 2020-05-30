@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'active_support'
-
 module Durt
   module Command
     class BrowseDb < ::Durt::Service
