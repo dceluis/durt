@@ -4,6 +4,33 @@ require 'active_support'
 
 module Durt
   module Command
+    class BrowseDb < ::Durt::Service
+      def initialize
+        system("sqlitebrowser #{Durt::DB_PATH}")
+      end
+    end
+
+    class Version < ::Durt::Service
+      def initialize
+        puts Durt::VERSION
+      end
+    end
+
+    class NullCommand < ::Durt::Service
+      def initialize
+        puts 'Unknown command'
+        exit
+      end
+    end
+
+    class Console < ::Durt::Service
+      def initialize
+        controller = Durt::ProjectController.new
+
+        steps << ->(_state) { controller.console }
+      end
+    end
+
     class NewProject < ::Durt::Service
       def initialize
         controller = Durt::ProjectController.new

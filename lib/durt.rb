@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
+require 'active_support'
+
 module Durt
   require_relative 'durt/version'
   require_relative 'durt/configurable'
   require_relative 'durt/db_config'
   require_relative 'durt/project'
   require_relative 'durt/service'
-
   require_relative 'durt/command'
 
   require_relative 'durt/project_controller'
@@ -29,4 +30,8 @@ module Durt
   require_relative 'durt/jira_bug_tracker'
   require_relative 'durt/pivotal_bug_tracker'
   require_relative 'durt/internal_bug_tracker'
+
+  def self.env
+    (ENV['DURT_ENV'] || 'runtime').inquiry
+  end
 end

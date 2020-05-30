@@ -12,6 +12,10 @@ module Durt
       current_project.active_issue
     end
 
+    def console
+      binding.pry
+    end
+
     def create_project
       project_name = prompt.ask('What will you name your project?')
 

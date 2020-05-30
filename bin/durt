@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 require_relative '../lib/durt'
-require 'irb'
 
 # Read lines from both file or STDIN
 # lines = (ARGV[0] ? IO.readlines(ARGV[0]) : ARGF.readlines).map(&:chomp)
@@ -16,15 +15,24 @@ def current_project
   Durt::Project.current_project
 end
 
-if command == 'db'
-  system("sqlitebrowser #{Durt::DB_PATH}")
-elsif command == '-v'
-  puts Durt::VERSION
-elsif command == 'c'
-  ARGV.clear
-  IRB.start
-else
-  const_name = "Durt::Command::#{command.underscore.camelize}"
+NULL_COMMAND = Durt::Command::NullCommand
+VERSION_COMMAND = Durt::Command::Version
+BROWSE_DB_COMMAND = Durt::Command::BrowseDb
+CONSOLE_COMMAND = Durt::Command::Console
 
-  const_name.constantize.call if Object.const_defined? const_name
-end
+COMMAND_TRANSLATIONS =
+  {
+    '-v' => VERSION_COMMAND,
+    'db' => BROWSE_DB_COMMAND,
+    'c' => CONSOLE_COMMAND,
+    nil => NULL_COMMAND
+  }.freeze
+
+translated = COMMAND_TRANSLATIONS[command]
+
+const_name = "Durt::Command::#{command.underscore.camelize}"
+
+built =
+  Object.const_defined?(const_name) && const_name.constantize
+
+(translated || built || NULL_COMMAND).call
