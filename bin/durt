@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require_relative '../lib/durt'
+require 'pry' if Durt.env.development?
 
 # Read lines from both file or STDIN
 # lines = (ARGV[0] ? IO.readlines(ARGV[0]) : ARGF.readlines).map(&:chomp)
@@ -28,11 +29,10 @@ COMMAND_TRANSLATIONS =
     nil => NULL_COMMAND
   }.freeze
 
-translated = COMMAND_TRANSLATIONS[command]
+command_klass =
+  COMMAND_TRANSLATIONS[command] ||
+  "Durt::Command::#{command.underscore.camelize}"
+    .yield_self { |name| Object.const_defined?(name) && name.constantize } ||
+  NULL_COMMAND
 
-const_name = "Durt::Command::#{command.underscore.camelize}"
-
-built =
-  Object.const_defined?(const_name) && const_name.constantize
-
-(translated || built || NULL_COMMAND).call
+command_klass.call
