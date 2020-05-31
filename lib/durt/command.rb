@@ -6,11 +6,11 @@ module Durt
       def initialize
         durt_db_dir = File.expand_path('~/.durt/db')
         db_sample = File.expand_path('../../db/sample.sqlite3', __dir__)
+        copy_dest = File.join(durt_db_dir, 'production.sqlite3')
+        dest_exist = File.exist?(copy_dest)
 
         FileUtils.mkdir_p(durt_db_dir, verbose: true)
-        FileUtils.cp(db_sample,
-                     File.join(durt_db_dir, 'production.sqlite3'),
-                     verbose: true)
+        FileUtils.cp(db_sample, copy_dest, noop: dest_exist, verbose: true)
       end
     end
 
