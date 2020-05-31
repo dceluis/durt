@@ -2,6 +2,15 @@
 
 module Durt
   module Command
+    class Init < ::Durt::Service
+      def initialize
+        FileUtils.mkdir_p(File.expand_path('~/.durt/db'))
+
+        system("rake db:create")
+        system("rake db:schema:load")
+      end
+    end
+
     class BrowseDb < ::Durt::Service
       def initialize
         system("sqlitebrowser #{ActiveRecord::Base.connection_config[:database]}")

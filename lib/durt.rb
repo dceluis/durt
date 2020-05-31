@@ -9,18 +9,21 @@ require 'active_record'
 
 module Durt
   def self.env
-    env = ENV.fetch('DURT_ENV', 'runtime')
+    env = ENV.fetch('DURT_ENV', 'production')
 
     ActiveSupport::StringInquirer.new(env)
   end
 end
 
+ENV['RAILS_ENV'] = Durt.env
+
 StandaloneMigrations::Configurator.load_configurations
 
 begin
   ActiveRecord::Base.establish_connection
-rescue
-
+rescue StandardError => e
+  puts e.message
+  puts "You might need to run 'DURT_ENV=#{Durt.env} durt init'"
 end
 
 require_relative 'durt/version'
