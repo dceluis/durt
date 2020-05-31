@@ -7,12 +7,12 @@ default: &default
 
 development:
   <<: *default
-  database: ~/.durt/db/development.sqlite3
+  database: <%= ENV['HOME'] %>/.durt/db/development.sqlite3
 
 test: &test
   <<: *default
-  database: ~/.durt/db/test.sqlite3
+  database: <%= ENV['HOME'] %>/.durt/db/test.sqlite3
 
 production:
   <<: *default
-  database: ~/.durt/db/production.sqlite3
+  database: <%= ENV['HOME'] %>/.durt/db/production.sqlite3
