@@ -16,13 +16,7 @@ module Durt
 end
 
 StandaloneMigrations::Configurator.load_configurations
-
-begin
-  ActiveRecord::Base.establish_connection
-rescue StandardError => e
-  puts e.message
-  puts "You might need to run 'DURT_ENV=#{Durt.env} durt init'"
-end
+ActiveRecord::Base.establish_connection
 
 require_relative 'durt/version'
 require_relative 'durt/configurable'

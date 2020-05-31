@@ -34,4 +34,12 @@ command_klass =
     .yield_self { |name| Object.const_defined?(name) && name.constantize } ||
   NULL_COMMAND
 
-command_klass.call
+begin
+  command_klass.call
+rescue ActiveRecord::StatementInvalid => e
+  raise e unless Durt.env.production?
+
+  puts e.message
+  puts "Database structure is incorrect"
+  puts "You might need to run 'durt init'"
+end
