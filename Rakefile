@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+ENV['RAILS_ENV'] = ENV.fetch('DURT_ENV', 'production')
+
 begin
   require 'rspec/core/rake_task'
   require 'standalone_migrations'

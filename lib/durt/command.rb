@@ -4,10 +4,14 @@ module Durt
   module Command
     class Init < ::Durt::Service
       def initialize
-        FileUtils.mkdir_p(File.expand_path('~/.durt/db'))
+        durt_db_dir = File.expand_path('~/.durt/db')
+        db_sample = File.expand_path('../../db/sample.sqlite3', __dir__)
+        binding.pry
 
-        system("rake db:create")
-        system("rake db:schema:load")
+        FileUtils.mkdir_p(durt_db_dir, verbose: true)
+        FileUtils.cp(db_sample,
+                     File.join(durt_db_dir, 'production.sqlite3'),
+                     verbose: true)
       end
     end
 

@@ -20,6 +20,8 @@ config_file_path = File.expand_path('../db/config.yml', __dir__)
 db_config =
   YAML.load(ERB.new(IO.read(config_file_path)).result)
 
+raise 'Sample db should be blank and remain unused' if Durt.env.sample?
+
 ActiveRecord::Base.establish_connection(db_config[Durt.env])
 
 require_relative 'durt/version'

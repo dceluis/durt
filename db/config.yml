@@ -16,3 +16,7 @@ test: &test
 production:
   <<: *default
   database: <%= ENV['HOME'] %>/.durt/db/production.sqlite3
+
+sample:
+  <<: *default
+  database: db/sample.sqlite3

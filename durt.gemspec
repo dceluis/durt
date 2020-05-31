@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.description = 'EBS tool for me'
   s.licenses = ['MIT']
 
-  s.files = Dir['Rakefile', 'README.md', 'LICENSE', 'lib/**/*']
-  s.files += Dir['db/schema.rb', 'db/config.yml']
+  s.files = Dir['README.md', 'LICENSE', 'lib/**/*']
+  s.files += Dir['db/config.yml', 'db/sample.sqlite3']
   s.test_files = Dir['spec/**/*']
   s.bindir = 'bin'
   s.executables << 'durt'
