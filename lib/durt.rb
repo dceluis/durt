@@ -3,20 +3,24 @@
 require 'pry'
 require 'active_support'
 require 'active_support/inflector'
+require 'erb'
 
 ENV['RAILS_ENV'] = ENV.fetch('DURT_ENV', 'production')
 
-require 'standalone_migrations'
 require 'active_record'
 
 module Durt
   def self.env
-    Rails.env
+    ActiveSupport::StringInquirer.new(ENV['RAILS_ENV'])
   end
 end
 
-StandaloneMigrations::Configurator.load_configurations
-ActiveRecord::Base.establish_connection
+config_file_path = File.expand_path('../db/config.yml', __dir__)
+
+db_config =
+  YAML.load(ERB.new(IO.read(config_file_path)).result)
+
+ActiveRecord::Base.establish_connection(db_config[Durt.env])
 
 require_relative 'durt/version'
 require_relative 'durt/configurable'

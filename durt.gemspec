@@ -12,8 +12,7 @@ Gem::Specification.new do |s|
   s.licenses = ['MIT']
 
   s.files = Dir['Rakefile', 'README.md', 'LICENSE', 'lib/**/*']
-  s.files += Dir['db/schema.rb']
-  s.files += Dir['config/database.yml', '.standalone_migrations']
+  s.files += Dir['db/schema.rb', 'db/config.yml']
   s.test_files = Dir['spec/**/*']
   s.bindir = 'bin'
   s.executables << 'durt'
