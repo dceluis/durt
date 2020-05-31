@@ -4,18 +4,16 @@ require 'pry'
 require 'active_support'
 require 'active_support/inflector'
 
+ENV['RAILS_ENV'] = ENV.fetch('DURT_ENV', 'production')
+
 require 'standalone_migrations'
 require 'active_record'
 
 module Durt
   def self.env
-    env = ENV.fetch('DURT_ENV', 'production')
-
-    ActiveSupport::StringInquirer.new(env)
+    Rails.env
   end
 end
-
-ENV['RAILS_ENV'] = Durt.env
 
 StandaloneMigrations::Configurator.load_configurations
 
