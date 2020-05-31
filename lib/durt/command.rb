@@ -6,7 +6,6 @@ module Durt
       def initialize
         durt_db_dir = File.expand_path('~/.durt/db')
         db_sample = File.expand_path('../../db/sample.sqlite3', __dir__)
-        binding.pry
 
         FileUtils.mkdir_p(durt_db_dir, verbose: true)
         FileUtils.cp(db_sample,
