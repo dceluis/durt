@@ -22,6 +22,13 @@ gem install durt
 
 ## Setup
 
+First, you will want to initialize your issues database.
+
+```
+durt init
+```
+
+
 Make sure Upwork client (or pick time tracker) is running and in the correct
 project.
 

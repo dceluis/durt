@@ -12,7 +12,8 @@ Gem::Specification.new do |s|
   s.licenses = ['MIT']
 
   s.files = Dir['Rakefile', 'README.md', 'LICENSE', 'lib/**/*']
-  s.files += Dir['db/config.yml', 'db/production.sqlite3']
+  s.files += Dir['db/schema.rb']
+  s.files += Dir['config/database.yml', '.standalone_migrations']
   s.test_files = Dir['spec/**/*']
   s.bindir = 'bin'
   s.executables << 'durt'
@@ -24,6 +25,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'jira-ruby', '~> 1.6'
   s.add_runtime_dependency 'octokit', '~> 4.13'
   s.add_runtime_dependency 'sqlite3', '~> 1.3.6'
+  s.add_runtime_dependency 'standalone_migrations', '~> 5.2'
   s.add_runtime_dependency 'tracker_api', '~> 1.9'
   s.add_runtime_dependency 'tty-prompt', '~> 0.18'
 
@@ -32,5 +34,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rake', '~> 12.3'
   s.add_development_dependency 'rspec', '~> 3.9'
   s.add_development_dependency 'simplecov', '~> 0.15'
-  s.add_development_dependency 'standalone_migrations', '~> 5.2'
 end

@@ -4,7 +4,7 @@ module Durt
   module Command
     class BrowseDb < ::Durt::Service
       def initialize
-        system("sqlitebrowser #{Durt::DB_PATH}")
+        system("sqlitebrowser #{ActiveRecord::Base.connection_config[:database]}")
       end
     end
 

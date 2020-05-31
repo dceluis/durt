@@ -4,6 +4,9 @@ require 'pry'
 require 'active_support'
 require 'active_support/inflector'
 
+require 'standalone_migrations'
+require 'active_record'
+
 module Durt
   def self.env
     env = ENV.fetch('DURT_ENV', 'runtime')
@@ -12,9 +15,16 @@ module Durt
   end
 end
 
+StandaloneMigrations::Configurator.load_configurations
+
+begin
+  ActiveRecord::Base.establish_connection
+rescue
+
+end
+
 require_relative 'durt/version'
 require_relative 'durt/configurable'
-require_relative 'durt/db_config'
 require_relative 'durt/project'
 require_relative 'durt/service'
 require_relative 'durt/command'
