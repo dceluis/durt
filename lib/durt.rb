@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'pry'
 require 'active_support'
 require 'active_support/inflector'
 
@@ -10,8 +11,6 @@ module Durt
     ActiveSupport::StringInquirer.new(env)
   end
 end
-
-require 'pry' if Durt.env.development?
 
 require_relative 'durt/version'
 require_relative 'durt/configurable'
