@@ -5,7 +5,7 @@ module Durt
     # Based on https://github.com/Selleo/pattern/blob/master/lib/patterns/service.rb
 
     attr_reader :result
-    attr_accessor :state
+    attr_reader :state
 
     def self.call(*args)
       new(*args).tap do |service|
@@ -15,9 +15,10 @@ module Durt
 
     def call
       steps.each do |step|
-        self.state = step.call(state)
+        @state = step.call(@state)
       end
-      state
+
+      self
     end
 
     private
