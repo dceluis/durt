@@ -13,18 +13,10 @@ module Durt
       after_initialize
     end
 
-    def new_issue(_issue_name)
-      {}
-    end
-
     def after_initialize; end
 
     def active?
       true
-    end
-
-    def choose(_value)
-      issues.select!
     end
 
     def fetch_issues

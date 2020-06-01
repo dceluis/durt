@@ -6,20 +6,10 @@ module Durt
 
     scope :to_choice_h, -> { Hash[map { |r| [r.to_s, r] }] }
 
-    def self.active!(record)
-      update_all(active: false)
-      record.reload.update(active: true)
-    end
+    def active!
+      fellow.update_all(active: false)
 
-    def self.select!
-      prompt.select("Select #{name}", to_choice_h).tap do |choice|
-        puts "Selected: #{choice}\n"
-        active!(choice)
-      end
-    end
-
-    def self.prompt
-      TTY::Prompt.new
+      reload.update(active: true)
     end
   end
 end

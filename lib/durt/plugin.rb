@@ -6,7 +6,7 @@ module Durt
   class Plugin
     attr_reader :project, :config
 
-    PLUGINS = %w[Upwork Pivotal Jira Github Local Ebs Notify].freeze
+    PLUGINS = %w[Upwork Pivotal Jira Github Ebs Notify].freeze
 
     def self.all
       PLUGINS.map do |plugin_name|
@@ -45,10 +45,6 @@ module Durt
       self.class.plugin_name
     end
 
-    def choose(value)
-      bug_tracker.choose(value)
-    end
-
     def switch_project
       time_tracker.switch_project(project)
     end
@@ -67,6 +63,18 @@ module Durt
 
     def stop(issue)
       issue
+    end
+
+    def process_new_issue(issue_data)
+      issue_data
+    end
+
+    def source_name
+      bug_tracker.source_name
+    end
+
+    def issues
+      bug_tracker.issues
     end
 
     def time_tracker

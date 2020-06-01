@@ -11,6 +11,10 @@ module Durt
 
     scope :active, -> { where(active: true) }
 
+    def fellow
+      self.class.where(project: project, source: source)
+    end
+
     def tracking?
       !sessions.tracking.empty?
     end

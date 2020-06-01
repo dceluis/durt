@@ -20,13 +20,15 @@ module Durt
     def create_project
       project_name = prompt.ask('What will you name your project?')
 
-      Durt::Project.create(name: project_name).tap do |project|
-        Durt::Project.active!(project)
-      end
+      Durt::Project.create(name: project_name).tap(&:active!)
     end
 
     def select_project
-      Durt::Project.select!
+      select_from_relation(Durt::Project.all)
+    end
+
+    def select_from_relation(relation)
+      prompt.select("Select: ", relation.to_choice_h).tap(&:active!)
     end
 
     def switch_to_project(project)
@@ -80,7 +82,8 @@ module Durt
         plugin = select_source(p)
 
         plugin.before_choose(nil)
-        plugin.choose(nil)
+
+        select_from_relation(plugin.issues)
       end
     end
 
@@ -99,17 +102,21 @@ module Durt
     end
 
     def new_issue(project)
-      project.tap do |p|
-        plugin = select_source(p)
+      plugin = select_source(project)
 
-        issue_name = prompt.ask('Enter issue name:')
+      issue_name = prompt.ask('Enter issue name:')
 
-        issue_data = plugin.new_issue(issue_name)
+      issue_data = {
+        # Key should probably be ref_id and not be required
+        key: SecureRandom.uuid,
+        summary: issue_name,
+        project: project,
+        source: plugin.source_name
+      }
 
-        project.issues.find_or_create_by(issue_data) do |issue|
-          issue.key = SecureRandom.uuid # Key should probably be ref_id and not be required
-        end
-      end
+      issue_data = plugin.process_new_issue(issue_data)
+
+      Durt::Issue.create(issue_data).active!
     end
 
     def print_stats(model)
@@ -119,16 +126,14 @@ module Durt
     private
 
     def bug_tracker_choices_for(project)
-      project.bug_tracker_plugins.map { |btp| [btp.plugin_name, btp] }.to_h
+      choice_plugins =
+        project.bug_tracker_plugins + [LocalPlugin.new(project)]
+
+      choice_plugins.map { |p| [p.plugin_name, p] }.to_h
     end
 
     def select_source(project)
       choices = bug_tracker_choices_for(project)
-
-      if choices.count.zero?
-        puts 'No issue sources to choose from'
-        exit
-      end
 
       return choices.values.first if choices.count == 1
 
