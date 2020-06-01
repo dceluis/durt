@@ -11,6 +11,7 @@ module Durt
     end
 
     def edit_estimate(issue)
+      puts issue.to_s
       estimate_input =
         prompt.ask('How long do you think this task will take you?')
 
