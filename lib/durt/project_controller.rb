@@ -132,7 +132,6 @@ module Durt
 
       return choices.values.first if choices.count == 1
 
-      binding.pry
       prompt.select('Select source', choices)
     end
 
