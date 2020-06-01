@@ -37,10 +37,6 @@ module Durt
       value
     end
 
-    def before_choose(value)
-      value
-    end
-
     def plugin_name
       self.class.plugin_name
     end

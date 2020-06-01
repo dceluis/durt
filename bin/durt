@@ -19,11 +19,13 @@ NULL_COMMAND = Durt::Command::NullCommand
 VERSION_COMMAND = Durt::Command::Version
 BROWSE_DB_COMMAND = Durt::Command::BrowseDb
 CONSOLE_COMMAND = Durt::Command::Console
+SYNC_COMMAND = Durt::Command::SyncIssues
 
 COMMAND_TRANSLATIONS =
   {
     '-v' => VERSION_COMMAND,
     'db' => BROWSE_DB_COMMAND,
+    'sync' => SYNC_COMMAND,
     'c' => CONSOLE_COMMAND,
     nil => NULL_COMMAND
   }.freeze

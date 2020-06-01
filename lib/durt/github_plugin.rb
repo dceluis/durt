@@ -8,10 +8,6 @@ module Durt
       { login: 'username', password: 'password!', repo: 'rails/rails' }
     end
 
-    def before_choose(_value)
-      bug_tracker.fetch_issues
-    end
-
     def bug_tracker_class
       Durt::GithubBugTracker
     end

@@ -27,8 +27,12 @@ module Durt
       select_from_relation(Durt::Project.all)
     end
 
-    def select_from_relation(relation)
-      prompt.select("Select: ", relation.to_choice_h).tap(&:active!)
+    def select_issue(project)
+      project.tap do |p|
+        plugin = select_source(p)
+
+        select_from_relation(plugin.issues)
+      end
     end
 
     def switch_to_project(project)
@@ -77,17 +81,21 @@ module Durt
       issue.stop_tracking!
     end
 
-    def choose_issue(project)
+    def sync_issues(project)
       project.tap do |p|
         plugin = select_source(p)
 
-        plugin.before_choose(nil)
+        fetched = plugin.fetch_issues
 
-        select_from_relation(plugin.issues)
+        fetched.map do |attrs|
+          Durt::Issue.find_or_create_by(key: attrs[:key]) do |issue|
+            issue.attributes = attrs
+          end
+        end
       end
     end
 
-    def process_issue(project)
+    def enter_issue(project)
       project.tap do |p|
         plugins = p.plugins
 
@@ -124,6 +132,10 @@ module Durt
     end
 
     private
+
+    def select_from_relation(relation)
+      prompt.select("Select: ", relation.to_choice_h).tap(&:active!)
+    end
 
     def bug_tracker_choices_for(project)
       choice_plugins =

@@ -74,8 +74,28 @@ module Durt
         controller = Durt::ProjectController.new
 
         steps << ->(_state) { controller.current_project }
-        steps << ->(project) { controller.choose_issue(project) }
-        steps << ->(project) { controller.process_issue(project) }
+        steps << ->(project) { controller.sync_issues(project) }
+        steps << ->(project) { controller.select_issue(project) }
+        steps << ->(project) { controller.enter_issue(project) }
+      end
+    end
+
+    class SelectIssue < ::Durt::Service
+      def initialize
+        controller = Durt::ProjectController.new
+
+        steps << ->(_state) { controller.current_project }
+        steps << ->(project) { controller.select_issue(project) }
+      end
+    end
+
+
+    class SyncIssues < ::Durt::Service
+      def initialize
+        controller = Durt::ProjectController.new
+
+        steps << ->(_state) { controller.current_project }
+        steps << ->(project) { controller.sync_issues(project) }
       end
     end
 
@@ -115,7 +135,7 @@ module Durt
       end
     end
 
-    class StatsAll < ::Durt::Service
+    class ProjectStats < ::Durt::Service
       def initialize
         controller = Durt::ProjectController.new
 

@@ -15,9 +15,12 @@ module Durt
       fetched_issues = @client.Issue.jql(fetch_issues_query)
 
       fetched_issues.map do |issue|
-        issues.find_or_create_by(key: issue.key) do |i|
-          i.summary = issue.summary
-        end
+        {
+          key: issue.key,
+          summary: issue.summary,
+          source: source_name,
+          project: project
+        }
       end
     end
 

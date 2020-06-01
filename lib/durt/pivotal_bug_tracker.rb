@@ -19,9 +19,12 @@ module Durt
       fetched_issues = source_project.stories(filter: "owner:#{current_user.id}")
 
       fetched_issues.map do |issue|
-        issues.find_or_create_by(key: issue.id) do |i|
-          i.summary = issue.name
-        end
+        {
+          key: issue.id,
+          summary: issue.name,
+          source: source_name,
+          project: project
+        }
       end
     end
 

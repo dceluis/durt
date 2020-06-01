@@ -20,6 +20,10 @@ module Durt
     end
 
     def start_tracking!
+      puts 'Already tracking'
+
+      return sessions.tracking.last if tracking?
+
       sessions.create(open_at: Time.now)
     end
 
