@@ -77,20 +77,6 @@ module Durt
       issue.stop_tracking!
     end
 
-    def sync_issues(project)
-      project.tap do |p|
-        plugin = select_source(p)
-
-        fetched = plugin.fetch_issues
-
-        fetched.map do |attrs|
-          Durt::Issue.find_or_create_by(key: attrs[:key]) do |issue|
-            issue.attributes = attrs
-          end
-        end
-      end
-    end
-
     def enter_issue(project)
       project.tap do |p|
         plugins = p.plugins
@@ -121,6 +107,20 @@ module Durt
       issue_data = plugin.process_new_issue(issue_data)
 
       Durt::Issue.create(issue_data).active!
+    end
+
+    def sync_issues(project)
+      project.tap do |p|
+        plugin = select_source(p)
+
+        fetched = plugin.fetch_issues
+
+        fetched.map do |attrs|
+          Durt::Issue.find_or_create_by(key: attrs[:key]) do |issue|
+            issue.attributes = attrs
+          end
+        end
+      end
     end
 
     def print_stats(model)
