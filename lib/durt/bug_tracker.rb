@@ -13,6 +13,10 @@ module Durt
       after_initialize
     end
 
+    def new_issue(_issue_name)
+      {}
+    end
+
     def after_initialize; end
 
     def active?

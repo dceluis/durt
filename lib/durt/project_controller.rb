@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'securerandom'
 require_relative 'plugin'
 
 module Durt
@@ -54,6 +55,10 @@ module Durt
           plugin.start(i)
         end
       end
+
+      return if issue.tracking?
+
+      issue.start_tracking!
     end
 
     def stop_issue(issue)
@@ -64,6 +69,10 @@ module Durt
           plugin.stop(i)
         end
       end
+
+      return unless issue.tracking?
+
+      issue.stop_tracking!
     end
 
     def choose_issue(project)
@@ -89,21 +98,42 @@ module Durt
       end
     end
 
+    def new_issue(project)
+      project.tap do |p|
+        plugin = select_source(p)
+
+        issue_name = prompt.ask('Enter issue name:')
+
+        issue_data = plugin.new_issue(issue_name)
+
+        project.issues.find_or_create_by(issue_data) do |issue|
+          issue.key = SecureRandom.uuid # Key should probably be ref_id and not be required
+        end
+      end
+    end
+
     def print_stats(model)
       model.tap(&:puts_stats)
     end
 
     private
 
+    def bug_tracker_choices_for(project)
+      project.bug_tracker_plugins.map { |btp| [btp.plugin_name, btp] }.to_h
+    end
+
     def select_source(project)
-      bug_tracker_plugins = project.bug_tracker_plugins
+      choices = bug_tracker_choices_for(project)
 
-      return bug_tracker_plugins.first if bug_tracker_plugins.length == 1
+      if choices.count.zero?
+        puts 'No issue sources to choose from'
+        exit
+      end
 
-      source_choices =
-        bug_tracker_plugins.map { |btp| [btp.plugin_name, btp] }.to_h
+      return choices.values.first if choices.count == 1
 
-      prompt.select('Select source', source_choices)
+      binding.pry
+      prompt.select('Select source', choices)
     end
 
     def plugins_config

@@ -6,7 +6,7 @@ module Durt
   class Plugin
     attr_reader :project, :config
 
-    PLUGINS = %w[Upwork Pivotal Jira Github Internal Ebs].freeze
+    PLUGINS = %w[Upwork Pivotal Jira Github Local Ebs Notify].freeze
 
     def self.all
       PLUGINS.map do |plugin_name|

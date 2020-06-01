@@ -79,6 +79,15 @@ module Durt
       end
     end
 
+    class NewIssue < ::Durt::Service
+      def initialize
+        controller = Durt::ProjectController.new
+
+        steps << ->(_state) { controller.current_project }
+        steps << ->(project) { controller.new_issue(project) }
+      end
+    end
+
     class Start < ::Durt::Service
       def initialize
         controller = Durt::ProjectController.new
