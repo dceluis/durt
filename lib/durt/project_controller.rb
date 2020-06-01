@@ -62,8 +62,6 @@ module Durt
         end
       end
 
-      return if issue.tracking?
-
       issue.start_tracking!
     end
 
@@ -75,8 +73,6 @@ module Durt
           plugin.stop(i)
         end
       end
-
-      return unless issue.tracking?
 
       issue.stop_tracking!
     end
