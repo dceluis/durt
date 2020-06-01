@@ -37,6 +37,10 @@ module Durt
       value
     end
 
+    def fetch_issues
+      bug_tracker.fetch_issues
+    end
+
     def plugin_name
       self.class.plugin_name
     end

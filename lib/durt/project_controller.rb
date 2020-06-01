@@ -29,7 +29,7 @@ module Durt
 
     def select_issue(project)
       project.tap do |p|
-        plugin = select_source(p)
+        plugin = select_source(p, include_local: true)
 
         select_from_relation(plugin.issues)
       end
@@ -137,19 +137,22 @@ module Durt
       prompt.select("Select: ", relation.to_choice_h).tap(&:active!)
     end
 
-    def bug_tracker_choices_for(project)
-      choice_plugins =
-        project.bug_tracker_plugins + [LocalPlugin.new(project)]
+    def bug_tracker_choices_for(project, include_local = false)
+      choice_plugins = project.bug_tracker_plugins
+      choice_plugins += [LocalPlugin.new(project)] if include_local
 
       choice_plugins.map { |p| [p.plugin_name, p] }.to_h
     end
 
-    def select_source(project)
-      choices = bug_tracker_choices_for(project)
+    def select_source(project, include_local: false)
+      @select_source ||=
+        begin
+          choices = bug_tracker_choices_for(project, include_local)
 
-      return choices.values.first if choices.count == 1
+          return choices.values.first if choices.count == 1
 
-      prompt.select('Select source', choices)
+          prompt.select('Select source', choices)
+        end
     end
 
     def plugins_config
