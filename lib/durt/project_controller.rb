@@ -5,47 +5,29 @@ require_relative 'plugin'
 
 module Durt
   class ProjectController
-    def current_project
-      Durt::Project.current_project
+    attr_reader :project
+
+    def initialize(project)
+      @project = project
     end
 
     def current_issue
-      current_project.active_issue
+      project.active_issue
     end
 
-    def console
-      binding.pry
+    def select_issue(issue = nil)
+      issue ||=
+        begin
+          plugin = select_source(project)
+
+          prompt.select("Select issue: ", plugin.issues.to_choice_h)
+        end
+
+      project.issues.update_all(active: false)
+      issue.tap(&:active!)
     end
 
-    def create_project
-      project_name = prompt.ask('What will you name your project?')
-
-      Durt::Project.create(name: project_name).tap(&:active!)
-    end
-
-    def select_project
-      select_from_relation(Durt::Project.all)
-    end
-
-    def select_issue(project)
-      project.tap do |p|
-        plugin = select_source(p, include_local: true)
-
-        select_from_relation(plugin.issues)
-      end
-    end
-
-    def switch_to_project(project)
-      project.tap do |p|
-        p.time_tracker_plugins.each(&:switch_project)
-      end
-    end
-
-    def create_project_config(project)
-      project.tap { |p| p.config!('plugins' => plugins_config) }
-    end
-
-    def filter(project)
+    def filter
       project.tap do |p|
         p.plugins.each do |plugin|
           plugin.filter(nil)
@@ -55,7 +37,7 @@ module Durt
 
     def start_issue(issue)
       issue.tap do |i|
-        plugins = i.project.time_tracker_plugins
+        plugins = project.time_tracker_plugins
 
         plugins.each do |plugin|
           plugin.start(i)
@@ -67,7 +49,7 @@ module Durt
 
     def stop_issue(issue)
       issue.tap do |i|
-        plugins = i.project.time_tracker_plugins
+        plugins = project.time_tracker_plugins
 
         plugins.each do |plugin|
           plugin.stop(i)
@@ -77,21 +59,21 @@ module Durt
       issue.stop_tracking!
     end
 
-    def enter_issue(project)
+    def enter_issue(issue)
       project.tap do |p|
         plugins = p.plugins
 
         plugins.each do |plugin|
-          plugin.before_enter(p.active_issue)
+          plugin.before_enter(issue)
         end
 
         plugins.each do |plugin|
-          plugin.enter(p.active_issue)
+          plugin.enter(issue)
         end
       end
     end
 
-    def new_issue(project)
+    def new_issue
       plugin = select_source(project)
 
       issue_name = prompt.ask('Enter issue name:')
@@ -104,14 +86,20 @@ module Durt
         source: plugin.source_name
       }
 
-      issue_data = plugin.process_new_issue(issue_data)
-
-      Durt::Issue.create(issue_data).active!
+      Durt::Issue.create(issue_data)
     end
 
-    def sync_issues(project)
+    def push_issue(issue)
+      plugin = issue.plugin
+
+      ref_id = plugin.push_issue(issue)
+
+      issue.update(key: ref_id)
+    end
+
+    def sync_issues
       project.tap do |p|
-        plugin = select_source(p)
+        plugin = select_source(p, include_local: false)
 
         fetched = plugin.fetch_issues
 
@@ -123,43 +111,21 @@ module Durt
       end
     end
 
-    def print_stats(model)
-      model.tap(&:puts_stats)
-    end
-
     private
 
-    def select_from_relation(relation)
-      prompt.select("Select: ", relation.to_choice_h).tap(&:active!)
-    end
-
-    def bug_tracker_choices_for(project, include_local = false)
+    def bug_tracker_choices_for(project, include_local = true)
       choice_plugins = project.bug_tracker_plugins
-      choice_plugins += [LocalPlugin.new(project)] if include_local
+      choice_plugins = choice_plugins.reject { |p| p.plugin_name == 'Local' } unless include_local
 
       choice_plugins.map { |p| [p.plugin_name, p] }.to_h
     end
 
-    def select_source(project, include_local: false)
-      @select_source ||=
-        begin
-          choices = bug_tracker_choices_for(project, include_local)
+    def select_source(project, include_local: true)
+      choices = bug_tracker_choices_for(project, include_local)
 
-          return choices.values.first if choices.count == 1
+      return choices.values.first if choices.count == 1
 
-          prompt.select('Select source', choices)
-        end
-    end
-
-    def plugins_config
-      plugin_choices = Durt::Plugin.all.map(&:plugin_name)
-
-      prompt
-        .multi_select('Select plugins', plugin_choices)
-        .map do |p_name|
-          [p_name, Durt::Plugin.find_by_plugin_name(p_name).demo_config]
-        end
-        .to_h
+      prompt.select('Select source', choices)
     end
 
     def prompt

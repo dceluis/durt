@@ -35,112 +35,110 @@ module Durt
 
     class Console < ::Durt::Service
       def initialize
-        controller = Durt::ProjectController.new
+        controller = Durt::GlobalController.new
 
-        steps << ->(_state) { controller.console }
+        steps << ->(_) { controller.console }
       end
     end
 
     class NewProject < ::Durt::Service
       def initialize
-        controller = Durt::ProjectController.new
+        controller = Durt::GlobalController.new
 
-        steps << ->(_state) { controller.create_project }
-        steps << ->(state) { controller.create_project_config(state) }
+        steps << ->(_) { controller.create_project }
+        steps << ->(project) { controller.create_project_config(project) }
+        steps << ->(project) { controller.select_project(project) }
         steps << ->(project) { controller.switch_to_project(project) }
       end
     end
 
     class SelectProject < ::Durt::Service
       def initialize
-        controller = Durt::ProjectController.new
+        controller = Durt::GlobalController.new
 
-        steps << ->(_state) { controller.select_project }
+        steps << ->(_) { controller.select_project }
         steps << ->(project) { controller.switch_to_project(project) }
       end
     end
 
     class Filter < ::Durt::Service
       def initialize
-        controller = Durt::ProjectController.new
+        project = Durt::Project.current_project
+        controller = Durt::ProjectController.new(project)
 
-        steps << ->(_state) { controller.current_project }
-        steps << ->(project) { controller.filter(project) }
+        steps << ->(_) { controller.filter }
       end
     end
 
     class Memo < ::Durt::Service
       def initialize
-        controller = Durt::ProjectController.new
+        project = Durt::Project.current_project
+        controller = Durt::ProjectController.new(project)
 
-        steps << ->(_state) { controller.current_project }
-        steps << ->(project) { controller.sync_issues(project) }
-        steps << ->(project) { controller.select_issue(project) }
-        steps << ->(project) { controller.enter_issue(project) }
+        steps << ->(_) { controller.sync_issues }
+        steps << ->(_) { controller.select_issue }
+        steps << ->(issue) { controller.enter_issue(issue) }
       end
     end
 
     class SelectIssue < ::Durt::Service
       def initialize
-        controller = Durt::ProjectController.new
+        project = Durt::Project.current_project
+        controller = Durt::ProjectController.new(project)
 
-        steps << ->(_state) { controller.current_project }
-        steps << ->(project) { controller.select_issue(project) }
+        steps << ->(_) { controller.select_issue }
       end
     end
 
-
     class SyncIssues < ::Durt::Service
       def initialize
-        controller = Durt::ProjectController.new
+        project = Durt::Project.current_project
+        controller = Durt::ProjectController.new(project)
 
-        steps << ->(_state) { controller.current_project }
-        steps << ->(project) { controller.sync_issues(project) }
+        steps << ->(_) { controller.sync_issues }
       end
     end
 
     class NewIssue < ::Durt::Service
       def initialize
-        controller = Durt::ProjectController.new
+        project = Durt::Project.current_project
+        controller = Durt::ProjectController.new(project)
 
-        steps << ->(_state) { controller.current_project }
-        steps << ->(project) { controller.new_issue(project) }
+        steps << ->(_) { controller.new_issue }
+        steps << ->(issue) { controller.select_issue(issue) }
+        steps << ->(issue) { controller.push_issue(issue) }
       end
     end
 
     class Start < ::Durt::Service
       def initialize
-        controller = Durt::ProjectController.new
+        project = Durt::Project.current_project
+        controller = Durt::ProjectController.new(project)
 
-        steps << ->(_state) { controller.current_issue }
+        steps << ->(_) { controller.current_issue }
         steps << ->(issue) { controller.start_issue(issue) }
       end
     end
 
     class Stop < ::Durt::Service
       def initialize
-        controller = Durt::ProjectController.new
+        project = Durt::Project.current_project
+        controller = Durt::ProjectController.new(project)
 
-        steps << ->(_state) { controller.current_issue }
+        steps << ->(_) { controller.current_issue }
         steps << ->(issue) { controller.stop_issue(issue) }
       end
     end
 
     class Stats < ::Durt::Service
       def initialize
-        controller = Durt::ProjectController.new
-
-        steps << ->(_state) { controller.current_issue }
-        steps << ->(issue) { controller.print_stats(issue) }
+        Durt::Project.current_project.active_issue.puts_stats
       end
     end
 
     class ProjectStats < ::Durt::Service
       def initialize
-        controller = Durt::ProjectController.new
-
-        steps << ->(_state) { controller.current_project }
-        steps << ->(project) { controller.print_stats(project) }
+        Durt::Project.current_project.puts_stats
       end
     end
   end

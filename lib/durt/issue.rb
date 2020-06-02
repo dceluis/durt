@@ -11,10 +11,6 @@ module Durt
 
     scope :active, -> { where(active: true) }
 
-    def fellow
-      self.class.where(project: project, source: source)
-    end
-
     def tracking?
       !sessions.tracking.empty?
     end
@@ -26,6 +22,10 @@ module Durt
       end
 
       sessions.create(open_at: Time.now)
+    end
+
+    def plugin
+      project.plugins.find { |p| p.plugin_name == source }
     end
 
     def stop_tracking!

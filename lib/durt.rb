@@ -30,6 +30,7 @@ require_relative 'durt/project'
 require_relative 'durt/service'
 require_relative 'durt/command'
 
+require_relative 'durt/global_controller'
 require_relative 'durt/project_controller'
 require_relative 'durt/local_plugin'
 require_relative 'durt/notify_plugin'

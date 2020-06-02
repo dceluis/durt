@@ -16,10 +16,6 @@ module Durt
       name
     end
 
-    def fellow
-      self.class.all
-    end
-
     def plugins
       @plugins ||=
         config['plugins'].map do |plugin_name, plugin_config|
