@@ -20,7 +20,13 @@ module Durt
         begin
           plugin = select_source(project)
 
-          prompt.select("Select issue: ", plugin.issues.to_choice_h)
+          raise "No plugin selected" unless plugin.present?
+
+          issues = plugin.issues
+
+          raise "No issue available to select" unless issues.present?
+
+          prompt.select("Select issue: ", issues.to_choice_h)
         end
 
       project.issues.update_all(active: false)
